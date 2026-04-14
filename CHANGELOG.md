@@ -11,6 +11,31 @@ Maintained date-wise in descending order (latest first).
 
 ---
 
+## 2026-04-14
+
+### Added
+
+- **Universal QA Toolbox** — Created a centralized, page-aware overlay providing instant access to Acceptance Criteria and Test Scenarios.
+- **Advanced Serialization Spec** — Implemented `src/data/qaSpecs.js` to manage all playground documentation in one JSON-based store.
+- **Chaos Form Builder** — Launched a specialized testing module with 5 core chaos modes (Label Swap, Ghost Field, Field Shuffle, Infinite Spinner, Random Validation).
+- **God Mode Control Center** — Built a real-time network failure simulator (Offline, 500 Error, Slow 3G) using React Context and custom fetch interceptors.
+- **Automation Sandbox** — Added high-complexity widgets including a custom Date Picker, Product Gallery with async filters, and Advanced Validation forms.
+
+### Changed
+
+- **Project Rebranding** — Fully transformed the repository from a personal portfolio into **LakshyaQALab**, a dedicated SDET practice facility.
+- **Production Pipeline** — Re-configured Vercel deployment to target `main` as production and `https://lakshyatesthub.vercel.app/` as the primary URL.
+- **Vite 8 Upgrade** — Migrated the build system to Vite 8 for faster cold starts and improved module resolution.
+- **Branding Consistency** — Standardized all page titles to follow the `Page | LakshyaQALab` naming convention.
+- **Dev Configuration** — Hardcoded development port to `5252` to prevent collision with other portfolio services.
+
+### Fixed
+
+- **Sticky Header Hysteresis** — Eliminated header flickering/wobble by implementing a 60px/10px scroll threshold logic.
+- **Routing Stability** — Hardened `vercel.json` with SPA rewrites to ensure direct URL navigation works without 404s.
+
+---
+
 ## 2026-04-13
 
 ### Added

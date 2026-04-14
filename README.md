@@ -1,271 +1,122 @@
-# Lakshya Sharma — QA Automation Engineer Portfolio
+# LakshyaQALab — Advanced QA Testing Playground
 
-A professional, responsive portfolio website built with **React 19**, **Vite**, and **Tailwind CSS**. Designed to showcase QA automation expertise, projects, and experience to recruiters and hiring managers.
+A robust, industry-grade sandbox designed for practicing manual testing and developing automated test suites. Built with **React 19**, **Vite 8**, and **Tailwind CSS v4**, this playground simulates complex real-world UI scenarios, edge cases, and network failures.
 
-> **Live URL:** https://lakshyasharmaqa.vercel.app/
-
----
-
-## Table of Contents
-
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Local Setup](#local-setup)
-- [Customization](#customization)
-- [Deployment on Vercel](#deployment-on-vercel)
-- [Troubleshooting](#troubleshooting)
-- [Contact](#contact)
+> **Live Production:** [lakshyatesthub.vercel.app](https://lakshyatesthub.vercel.app/)  
+> **Target Audience:** SDETs, QA Engineers, and Automation Students.
 
 ---
 
-## Tech Stack
+## 🚀 Key Features
 
-| Category     | Technology               |
-| ------------ | ------------------------ |
-| Framework    | React 19, Vite           |
-| Styling      | Tailwind CSS v4, PostCSS |
-| Animations   | Framer Motion            |
-| Charts       | Recharts                 |
-| Icons        | Heroicons                |
-| Contact Form | EmailJS                  |
-| Deployment   | Vercel                   |
+### 1. Unified QA Toolbox
 
----
+A floating overlay (`bottom-right`) persistent across all pages that provides:
 
-## Project Structure
+- **Acceptance Criteria (AC)**: Detailed business logic and validation rules for the current page.
+- **Automation Hub (TS)**: Curated test scenarios (Smoke, Regression, Edge) with `data-testid` selectors.
+- **AI Master Prompts**: One-click copy for high-quality Playwright/Cypress script generation.
 
-```
-├── public/
-│   ├── resume.pdf          # Your downloadable resume (replace this)
-│   ├── sitemap.xml         # SEO sitemap
-│   └── robots.txt          # SEO robots file
-│
-├── src/
-│   ├── components/
-│   │   ├── Header.jsx      # Navigation bar with dark/light mode toggle
-│   │   ├── Hero.jsx        # Hero section with typing animation
-│   │   ├── About.jsx       # About section with process flow
-│   │   ├── Skills.jsx      # Skills with proficiency charts
-│   │   ├── Experience.jsx  # Timeline-based work experience
-│   │   ├── Projects.jsx    # Filterable project showcase
-│   │   ├── Resume.jsx      # Resume preview and download
-│   │   ├── Contact.jsx     # Contact form
-│   │   └── Footer.jsx      # Footer with social links
-│   │
-│   ├── data/
-│   │   └── profile.js      # ⭐ All personal content lives here
-│   │
-│   ├── App.jsx             # Root component
-│   ├── main.jsx            # Entry point
-│   └── index.css           # Global styles and Tailwind imports
-│
-├── tailwind.config.js      # Tailwind theme and color configuration
-├── vite.config.js          # Vite build configuration
-├── vercel.json             # Vercel deployment configuration
-└── package.json
-```
+### 2. Secure Login Flow
+
+- **Validation**: Strict alphanumeric username checks and complex password requirements.
+- **Security**: 5-attempt rate limiting with a 30-second lockout timer.
+- **Automation-Ready**: Integrates Google reCAPTCHA v2 (test site key) for predictable automation logic.
+
+### 3. Productive Dashboard
+
+- **Data Table**: Server-side mock sorting, pagination, and multi-select.
+- **File Upload**: Dropzone with size validation (5MB limit) and progress simulation.
+- **God Mode (Control Center)**: Real-time sidebar to toggle **Offline Mode**, **500 Server Errors**, and **Slow 3G Network** (3s delay).
+
+### 4. Chaos Form Builder
+
+A testing "boss level" featuring 5+ selectable chaos modes:
+
+- **Label Swap**: Dynamic visual label changes while maintaining stable `data-testid` attributes.
+- **Ghost Field**: Unexpected required fields injected dynamically into the DOM.
+- **Field Shuffle**: Random re-ordering of input fields.
+- **Infinite Spinner**: Simulates stuck UI states to test timeout handling.
+
+### 5. Automation Sandbox
+
+Specialized widgets for extracting complex data:
+
+- **Product Gallery**: Filterable/sortable list of items with "Out of Stock" logic.
+- **Custom Date Picker**: Custom-built calendar widget (no native browser pickers).
+- **Advanced Controls**: Multi-tag inputs and range sliders.
 
 ---
 
-## Local Setup
+## 🛠️ Tech Stack
+
+| Category         | Technology                               |
+| :--------------- | :--------------------------------------- |
+| **Framework**    | React 19 (Latest)                        |
+| **Build Tool**   | Vite 8 + Rolldown                        |
+| **Styling**      | Tailwind CSS v4 + PostCSS                |
+| **State**        | Context API (Auth, Network, Logger)      |
+| **Animations**   | Framer Motion (60FPS)                    |
+| **Testing Spec** | [Playwright TS](https://playwright.dev/) |
+
+---
+
+## 💻 Local Development
 
 ### Prerequisites
 
 - Node.js **v22+**
 - npm **v10+**
-- Git
 
-### Steps
+### Setup Steps
 
-**1. Clone the repository**
+1. **Clone the repo**
 
-```bash
-git clone https://github.com/LakshyaQA/portfolio-qa-automation.git
-cd portfolio-qa-automation
-```
+   ```bash
+   git clone https://github.com/LakshyaQA/LakshyaQALab.git
+   cd LakshyaQALab
+   ```
 
-**2. Install dependencies**
+2. **Install dependencies**
 
-```bash
-npm install
-```
+   ```bash
+   npm install
+   ```
 
-**3. Start the development server**
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:5173](http://localhost:5173) in your browser.
-
-**4. Build for production**
-
-```bash
-npm run build
-```
-
-**5. Preview production build locally**
-
-```bash
-npm run preview
-```
+3. **Start Dev Server**
+   ```bash
+   npm run dev
+   ```
+   The app will start on [http://localhost:5252](http://localhost:5252).
 
 ---
 
-## Customization
+## 🚢 Deployment Strategy
 
-All personal content (name, experience, skills, projects, contact info) is centralized in one file:
+The project is hosted on **Vercel** with a dual-branch strategy:
 
-```
-src/data/profile.js
-```
+- **`main`**: Production release ([lakshyatesthub.vercel.app](https://lakshyatesthub.vercel.app/)).
+- **`master`**: UAT / Feature preview.
 
-You do **not** need to touch individual components for content updates. Just edit `profile.js`.
-
-### Key things to update:
-
-| What                           | Where                                        |
-| ------------------------------ | -------------------------------------------- |
-| Name, title, bio, contact info | `src/data/profile.js`                        |
-| Work experience                | `src/data/profile.js` → `experience` array   |
-| Projects                       | `src/data/profile.js` → `projects` array     |
-| Skills                         | `src/data/profile.js` → `skills` array       |
-| Resume PDF                     | Replace `/public/resume.pdf` with your file  |
-| Colors / Theme                 | `tailwind.config.js` → `theme.extend.colors` |
+Every push to `main` triggers an automated CI/CD pipeline that builds and verifies the distribution bundle.
 
 ---
 
-## Deployment on Vercel
+## 📝 Automation Guidelines
 
-### First-Time Deployment (Connect GitHub → Vercel)
+All interactive elements use a strict `data-testid` naming convention:
 
-This is a one-time setup. After this, every commit auto-deploys.
+- Inputs: `[data-testid="login-username"]`
+- Buttons: `[data-testid="chaos-submit-btn"]`
+- Messages: `[data-testid="error-banner"]`
 
-**Step 1 — Push your code to GitHub**
-
-```bash
-git add .
-git commit -m "initial portfolio setup"
-git push origin main
-```
-
-**Step 2 — Import project on Vercel**
-
-1. Go to [vercel.com](https://vercel.com) and sign in (use your GitHub account)
-2. Click **"Add New Project"**
-3. Click **"Import"** next to your repository (`portfolio-qa-automation`)
-4. Vercel will auto-detect it as a **Vite** project — no settings need to change
-5. Click **"Deploy"**
-6. Your site will be live in ~1–2 minutes at a URL like `https://portfolio-qa-automation.vercel.app`
+Avoid using CSS selectors or XPaths based on text/position, as the **Chaos Modes** are designed to break those strategies.
 
 ---
 
-### Auto-Deploy on Every Commit (After Setup)
+## 🤝 Contact
 
-Once your GitHub repo is connected to Vercel, **every `git push` to `main` triggers an automatic deployment**. You don't need to do anything manually.
+- **Lakshya Sharma**: [linkedin.com/in/lakshyasharmaqa](https://linkedin.com/in/lakshyasharmaqa)
+- **Email**: lakshyasharmaqa@gmail.com
 
-```bash
-# Make your changes, then:
-git add .
-git commit -m "your message"
-git push origin main
-# ✅ Vercel will automatically detect the push and redeploy
-```
-
-You can monitor deployment status in your **Vercel Dashboard** under the project → **Deployments** tab.
-
----
-
-### Deploy via Vercel CLI
-
-You can also trigger deployments directly from your terminal without going to the dashboard.
-
-**Step 1 — Install Vercel CLI**
-
-```bash
-npm install -g vercel
-```
-
-**Step 2 — Login to Vercel**
-
-```bash
-vercel login
-```
-
-**Step 3 — Deploy to preview (UAT / staging)**
-
-```bash
-vercel
-```
-
-**Step 4 — Deploy to production**
-
-```bash
-vercel --prod
-```
-
-**Check deployment status & list all deployments**
-
-```bash
-vercel ls
-```
-
-**Inspect a specific deployment**
-
-```bash
-vercel inspect <deployment-url>
-```
-
-> **Tip:** For UAT branch, just `git push origin uat` — Vercel auto-deploys on every push if the branch is connected in your Vercel project settings.
-
----
-
-### Add a Custom Domain (Optional)
-
-1. In your Vercel project, go to **Settings → Domains**
-2. Enter your domain (e.g. `lakshyasharmaqa.dev`)
-3. Follow the DNS instructions Vercel provides
-4. SSL is handled automatically by Vercel
-
----
-
-## Troubleshooting
-
-**Build fails locally?**
-
-```bash
-# Clear cache and reinstall
-rm -rf node_modules
-npm install
-npm run build
-```
-
-**`@tailwind` warning in VS Code?**
-
-This is a VS Code CSS linter warning, not a real error. Fix it by adding to `.vscode/settings.json`:
-
-```json
-{
-  "css.lint.unknownAtRules": "ignore"
-}
-```
-
-Or install the **Tailwind CSS IntelliSense** extension from VS Code marketplace.
-
-**Vercel deployment fails?**
-
-- Check the **Build Logs** in your Vercel dashboard for the exact error
-- Make sure your `package.json` has `"build": "vite build"` in scripts
-- Ensure Node.js version is set (already configured via `engines` in `package.json`)
-
----
-
-## Contact
-
-- **Email:** lakshyasharmaqa@gmail.com
-- **LinkedIn:** [linkedin.com/in/lakshyasharmaqa](https://linkedin.com/in/lakshyasharmaqa)
-- **GitHub:** [github.com/LakshyaQA](https://github.com/LakshyaQA)
-
----
-
-_Built by Lakshya Sharma_
+_Built with ❤️ for the QA Community_
