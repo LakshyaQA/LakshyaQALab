@@ -27,7 +27,12 @@ const Dashboard = () => {
     }
 
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      const y = window.scrollY;
+      setIsScrolled(prev => {
+        if (!prev && y > 60) return true;   // only collapse after 60px down
+        if (prev && y < 10) return false;   // only expand back when near top
+        return prev;                         // no change in between — no wobble
+      });
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -41,10 +46,10 @@ const Dashboard = () => {
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       <div className="min-h-screen bg-gray-50 dark:bg-slate-900 transition-colors duration-300">
         {/* Sticky Header Wrapper */}
-        <div className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'pt-2 px-8' : 'pt-8 px-8'}`}>
+        <div className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'px-0 pt-0' : 'pt-8 px-8'}`}>
           <div className="max-w-6xl mx-auto">
             <header 
-              className={`flex justify-between items-center bg-white/95 dark:bg-slate-800/95 backdrop-blur-md rounded-xl shadow-lg border border-gray-200 dark:border-slate-700 transition-all duration-300 ${isScrolled ? 'p-3' : 'p-5'}`}
+              className={`flex justify-between items-center bg-white/95 dark:bg-slate-800/95 backdrop-blur-md shadow-lg border-b border-gray-200 dark:border-slate-700 transition-all duration-500 ${isScrolled ? 'p-3 rounded-none' : 'p-5 rounded-xl'}`}
               data-testid="dashboard-header"
             >
               <div className="flex items-center space-x-4">
