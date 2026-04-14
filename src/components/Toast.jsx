@@ -1,5 +1,5 @@
 import React from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion as _motion, AnimatePresence } from 'framer-motion'
 import { CheckCircleIcon, ExclamationCircleIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useToast } from '../context/ToastContext'
 
@@ -10,7 +10,7 @@ const Toast = () => {
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999] flex flex-col items-center space-y-3 pointer-events-none w-full max-w-sm px-4">
       <AnimatePresence>
         {toasts.map(toast => (
-          <motion.div
+          <_motion.div
             key={toast.id}
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -46,7 +46,7 @@ const Toast = () => {
             >
               <XMarkIcon className="h-4 w-4" />
             </button>
-          </motion.div>
+          </_motion.div>
         ))}
       </AnimatePresence>
     </div>
