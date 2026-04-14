@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://lakshyasharmaqa.dev/sitemap.xml
+
+# Disallow common admin/system paths
+Disallow: /admin/
+Disallow: /_next/
+Disallow: /api/
+Disallow: /.well-known/
+
+# Allow specific important paths
+Allow: /resume.pdf
+Allow: /og-image.jpg
