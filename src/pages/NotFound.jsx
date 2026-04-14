@@ -2,6 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const NotFound = () => {
+  React.useEffect(() => {
+    document.title = "404 Not Found | LakshyaQALab";
+  }, []);
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-slate-900 text-center px-4 transition-colors duration-300">
       <h1 className="text-9xl font-bold mb-4 text-gray-200 dark:text-slate-800 select-none">404</h1>

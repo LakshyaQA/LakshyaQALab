@@ -7,6 +7,10 @@ import ProductGallery from '../components/sandbox/ProductGallery';
 import AdvancedForms from '../components/sandbox/AdvancedForms';
 
 const Sandbox = () => {
+  useEffect(() => {
+    document.title = "Sandbox | LakshyaQALab";
+  }, []);
+
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);

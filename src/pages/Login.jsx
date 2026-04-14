@@ -343,6 +343,10 @@ const ThemeToggle = ({ isDark, onToggle }) => (
 
 // ─── Main Login Component ──────────────────────────────────────────────────────
 const Login = () => {
+  useEffect(() => {
+    document.title = "Login | LakshyaQALab";
+  }, []);
+
   const [username, setUsername]           = useState('');
   const [password, setPassword]           = useState('');
   const [rememberMe, setRememberMe]       = useState(false);

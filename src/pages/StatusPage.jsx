@@ -9,6 +9,10 @@ const StatusPage = () => {
   // Default to 503 if no code is provided
   const statusCode = params.get('code') || '503';
   
+  React.useEffect(() => {
+    document.title = `Status ${statusCode} | LakshyaQALab`;
+  }, [statusCode]);
+  
   const statusInfo = {
     '503': {
       title: 'Under Maintenance',

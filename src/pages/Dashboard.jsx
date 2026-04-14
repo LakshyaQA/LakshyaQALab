@@ -8,6 +8,10 @@ import FileUpload from '../components/sandbox/FileUpload';
 import Sidebar from '../components/navigation/Sidebar';
 
 const Dashboard = () => {
+  useEffect(() => {
+    document.title = "Dashboard | LakshyaQALab";
+  }, []);
+
   const { isAuthenticated, logout, token } = useAuth();
   const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);

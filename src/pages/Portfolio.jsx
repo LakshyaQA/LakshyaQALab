@@ -10,6 +10,10 @@ import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 
 const Portfolio = ({ darkMode, toggleDarkMode }) => {
+  React.useEffect(() => {
+    document.title = "Portfolio | LakshyaQALab";
+  }, []);
+
   return (
     <>
       <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
