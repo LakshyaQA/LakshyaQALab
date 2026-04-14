@@ -104,20 +104,24 @@ const ControlCenter = () => {
 
           <div className="space-y-4">
             {/* Toggle 500 Error */}
-            <label className="flex items-center justify-between cursor-pointer group">
+            <label
+              htmlFor="toggle-500-error"
+              className="flex items-center justify-between cursor-pointer group"
+            >
               <span className="text-slate-300 text-xs group-hover:text-white transition-colors">
                 Force 500 Error
               </span>
               <div className="relative">
                 <input
+                  id="toggle-500-error"
                   type="checkbox"
-                  className="sr-only"
+                  className="sr-only peer"
                   checked={simulate500Error}
                   onChange={() => handleToggle('500 Error', simulate500Error, setSimulate500Error)}
                   data-testid="toggle-500"
                 />
                 <div
-                  className={`block w-9 h-5 rounded-full transition-colors ${simulate500Error ? 'bg-rose-500' : 'bg-slate-700'}`}
+                  className={`block w-9 h-5 rounded-full transition-colors peer-focus:ring-2 peer-focus:ring-blue-500 peer-focus:ring-offset-2 peer-focus:ring-offset-slate-900 ${simulate500Error ? 'bg-rose-500' : 'bg-slate-700'}`}
                 ></div>
                 <div
                   className={`absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-transform ${simulate500Error ? 'translate-x-4' : ''}`}
@@ -126,14 +130,18 @@ const ControlCenter = () => {
             </label>
 
             {/* Toggle Slow Network */}
-            <label className="flex items-center justify-between cursor-pointer group">
+            <label
+              htmlFor="toggle-slow-network"
+              className="flex items-center justify-between cursor-pointer group"
+            >
               <span className="text-slate-300 text-xs group-hover:text-white transition-colors">
                 Slow Network (3s)
               </span>
               <div className="relative">
                 <input
+                  id="toggle-slow-network"
                   type="checkbox"
-                  className="sr-only"
+                  className="sr-only peer"
                   checked={simulateSlowNetwork}
                   onChange={() =>
                     handleToggle('Slow Network', simulateSlowNetwork, setSimulateSlowNetwork)
@@ -141,7 +149,7 @@ const ControlCenter = () => {
                   data-testid="toggle-slow"
                 />
                 <div
-                  className={`block w-9 h-5 rounded-full transition-colors ${simulateSlowNetwork ? 'bg-amber-500' : 'bg-slate-700'}`}
+                  className={`block w-9 h-5 rounded-full transition-colors peer-focus:ring-2 peer-focus:ring-blue-500 peer-focus:ring-offset-2 peer-focus:ring-offset-slate-900 ${simulateSlowNetwork ? 'bg-amber-500' : 'bg-slate-700'}`}
                 ></div>
                 <div
                   className={`absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-transform ${simulateSlowNetwork ? 'translate-x-4' : ''}`}
@@ -150,20 +158,24 @@ const ControlCenter = () => {
             </label>
 
             {/* Toggle Offline */}
-            <label className="flex items-center justify-between cursor-pointer group">
+            <label
+              htmlFor="toggle-offline-mode"
+              className="flex items-center justify-between cursor-pointer group"
+            >
               <span className="text-slate-300 text-xs group-hover:text-white transition-colors">
                 Force Offline
               </span>
               <div className="relative">
                 <input
+                  id="toggle-offline-mode"
                   type="checkbox"
-                  className="sr-only"
+                  className="sr-only peer"
                   checked={simulateOffline}
                   onChange={() => handleToggle('Offline Mode', simulateOffline, setSimulateOffline)}
                   data-testid="toggle-offline"
                 />
                 <div
-                  className={`block w-9 h-5 rounded-full transition-colors ${simulateOffline ? 'bg-zinc-500' : 'bg-slate-700'}`}
+                  className={`block w-9 h-5 rounded-full transition-colors peer-focus:ring-2 peer-focus:ring-blue-500 peer-focus:ring-offset-2 peer-focus:ring-offset-slate-900 ${simulateOffline ? 'bg-zinc-500' : 'bg-slate-700'}`}
                 ></div>
                 <div
                   className={`absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-transform ${simulateOffline ? 'translate-x-4' : ''}`}

@@ -6,6 +6,12 @@ import { useLogger } from '../../context/LoggerContext'
 const DEPARTMENTS = ['', 'Engineering', 'QA & Testing', 'Product', 'Design', 'DevOps']
 const PRIORITIES = ['Low', 'Medium', 'High', 'Critical']
 
+const COUNTRY_CODES = [
+  { code: '+91', label: 'IN (+91)' },
+  { code: '+1', label: 'US (+1)' },
+  { code: '+44', label: 'UK (+44)' },
+]
+
 const BASE_FIELDS = [
   { id: 'name', label: 'Full Name', swapLabel: 'Email Address', type: 'text', required: true },
   { id: 'email', label: 'Email Address', swapLabel: 'Full Name', type: 'email', required: true },
@@ -234,6 +240,8 @@ const ChaosForm = () => {
     ghostField: false,
   })
 
+  const [selectedCountry, setSelectedCountry] = useState('+91')
+
   // Submit state: idle | loading | success | error
   const [submitState, setSubmitState] = useState('idle')
 
@@ -405,14 +413,15 @@ const ChaosForm = () => {
   // ── Field renderers ──────────────────────────────────────────────────────────
   const renderField = field => {
     const label = getLabel(field)
+    // Accessibility: text-gray-600 is replaced with text-gray-700 for better contrast on white backgrounds
     const inputClass = `w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-colors bg-white dark:bg-slate-700 text-gray-800 dark:text-slate-100 disabled:opacity-50 ${errors[field.id] ? 'border-red-400' : 'border-gray-300 dark:border-slate-600'}`
 
     return (
       <div key={field.id}>
         {field.type !== 'checkbox' && (
           <label
-            className="block text-xs font-semibold text-gray-600 dark:text-slate-300 mb-1"
-            htmlFor={`chaos-${field.id}`}
+            className="block text-xs font-semibold text-gray-700 dark:text-slate-200 mb-1"
+            htmlFor={`chaos-input-${field.id}`}
           >
             {label}
             {field.required && <span className="text-red-500 ml-0.5">*</span>}
@@ -432,27 +441,60 @@ const ChaosForm = () => {
           </label>
         )}
 
-        {field.type === 'text' || field.type === 'email' || field.type === 'tel' ? (
+        {field.type === 'text' || field.type === 'email' ? (
           <input
-            id={`chaos-${field.id}`}
+            id={`chaos-input-${field.id}`}
             type={field.type}
             value={values[field.id]}
             onChange={e => handleChange(field.id, e.target.value)}
             disabled={isLoading}
-            placeholder={
-              field.type === 'email'
-                ? 'you@example.com'
-                : field.type === 'tel'
-                  ? '+1 234 567 8901'
-                  : 'Enter your full name'
-            }
+            placeholder={field.type === 'email' ? 'you@example.com' : 'Enter your full name'}
             className={inputClass}
             data-testid={`chaos-input-${field.id}`}
             aria-invalid={!!errors[field.id]}
           />
+        ) : field.type === 'tel' ? (
+          <div className="flex gap-2 items-stretch h-[38px]">
+            <div className="relative h-full">
+              <select
+                aria-label="Country Code"
+                value={selectedCountry}
+                onChange={e => setSelectedCountry(e.target.value)}
+                disabled={isLoading}
+                className="h-full pl-3 pr-8 border border-gray-300 dark:border-slate-600 rounded-lg text-sm bg-gray-50 dark:bg-slate-700 text-gray-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-400 appearance-none transition-all"
+                data-testid="chaos-phone-country-code"
+              >
+                {COUNTRY_CODES.map(c => (
+                  <option key={c.code} value={c.code}>
+                    {c.label}
+                  </option>
+                ))}
+              </select>
+              <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    fillRule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+            <input
+              id={`chaos-input-${field.id}`}
+              type="tel"
+              value={values[field.id]}
+              onChange={e => handleChange(field.id, e.target.value)}
+              disabled={isLoading}
+              placeholder="98765 43210"
+              className={`${inputClass} !h-full`}
+              data-testid={`chaos-input-${field.id}`}
+              aria-invalid={!!errors[field.id]}
+            />
+          </div>
         ) : field.type === 'select' ? (
           <select
-            id={`chaos-${field.id}`}
+            id={`chaos-input-${field.id}`}
             value={values[field.id]}
             onChange={e => handleChange(field.id, e.target.value)}
             disabled={isLoading}
@@ -467,30 +509,36 @@ const ChaosForm = () => {
             ))}
           </select>
         ) : field.type === 'radio' ? (
-          <div className="flex flex-wrap gap-3" data-testid="chaos-radio-priority">
+          <div
+            className="flex flex-wrap gap-3"
+            data-testid="chaos-radio-priority"
+            role="radiogroup"
+          >
             {PRIORITIES.map(p => (
               <label
                 key={p}
-                className="flex items-center gap-1.5 cursor-pointer text-sm text-gray-700 dark:text-slate-300"
+                className="flex items-center gap-1.5 cursor-pointer text-sm text-gray-700 dark:text-slate-300 group"
+                htmlFor={`chaos-radio-${p.toLowerCase()}`}
               >
                 <input
+                  id={`chaos-radio-${p.toLowerCase()}`}
                   type="radio"
                   name="chaos-priority"
                   value={p}
                   checked={values.priority === p}
                   onChange={() => handleChange('priority', p)}
                   disabled={isLoading}
-                  className="text-indigo-600"
+                  className="text-indigo-600 focus:ring-indigo-500 h-4 w-4 border-gray-300"
                   data-testid={`chaos-radio-${p.toLowerCase()}`}
                 />
-                {p}
+                <span className="group-hover:text-indigo-600 transition-colors">{p}</span>
               </label>
             ))}
           </div>
         ) : field.type === 'textarea' ? (
           <div className="relative">
             <textarea
-              id={`chaos-${field.id}`}
+              id={`chaos-input-${field.id}`}
               value={values[field.id]}
               onChange={e => handleChange(field.id, e.target.value)}
               disabled={isLoading}
@@ -501,14 +549,17 @@ const ChaosForm = () => {
               data-testid="chaos-textarea-msg"
               aria-invalid={!!errors[field.id]}
             />
-            <span className="absolute bottom-2 right-3 text-xs text-gray-400 font-mono pointer-events-none">
+            <span className="absolute bottom-2 right-3 text-xs text-gray-500 dark:text-slate-400 font-mono pointer-events-none">
               {values.message.length}/300
             </span>
           </div>
         ) : field.type === 'checkbox' ? (
-          <label className="flex items-start gap-2 cursor-pointer" htmlFor="chaos-terms">
+          <label
+            className="flex items-start gap-2 cursor-pointer group"
+            htmlFor={`chaos-input-${field.id}`}
+          >
             <input
-              id="chaos-terms"
+              id={`chaos-input-${field.id}`}
               type="checkbox"
               checked={values.terms}
               onChange={e => handleChange('terms', e.target.checked)}
@@ -517,7 +568,7 @@ const ChaosForm = () => {
               data-testid="chaos-checkbox-terms"
               aria-invalid={!!errors.terms}
             />
-            <span className="text-sm text-gray-600 dark:text-slate-300 select-none">
+            <span className="text-sm text-gray-700 dark:text-slate-300 select-none group-hover:text-indigo-600 transition-colors">
               {field.label}
             </span>
           </label>
@@ -575,6 +626,7 @@ const ChaosForm = () => {
     <>
       {/* ── Main Card ──────────────────────────────────────────────────────── */}
       <div
+        id="chaos-form"
         className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border-2 transition-all duration-300 md:col-span-2 lg:col-span-3"
         style={{ borderColor: anyActive ? 'rgba(239,68,68,0.4)' : '#e5e7eb' }}
         data-testid="chaos-form"

@@ -100,7 +100,10 @@ const FileUpload = () => {
   }
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 overflow-hidden col-span-1 h-96 flex flex-col">
+    <div
+      id="file-upload"
+      className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 overflow-hidden col-span-1 h-96 flex flex-col"
+    >
       <div className="px-6 py-4 border-b border-gray-200 dark:border-slate-700 flex justify-between items-center bg-gray-50/50 dark:bg-slate-800/50">
         <h3 className="font-semibold text-gray-800 dark:text-slate-200 flex items-center">
           <svg

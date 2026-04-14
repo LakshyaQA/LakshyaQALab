@@ -15,15 +15,20 @@ const QAToolsOverlay = () => {
   const [showAC, setShowAC] = useState(false)
   const [showTS, setShowTS] = useState(false)
 
-  // Portfolio Cross-Link Popup State
+  // Portfolio Cross-Link Popup State — only on login page
   const [showPortfolio, setShowPortfolio] = useState(false)
   const [portfolioDismissed, setPortfolioDismissed] = useState(false)
+  const isLoginPage = location.pathname === '/login' || location.pathname === '/'
 
   useEffect(() => {
-    // Show portfolio popup after 2s on every page load unless dismissed
+    if (!isLoginPage) return
+    // Show portfolio popup after 2s on login page unless dismissed
     const timer = setTimeout(() => setShowPortfolio(true), 2000)
     return () => clearTimeout(timer)
-  }, [location])
+  }, [isLoginPage])
+
+  // Only show popup on login page
+  const showPortfolioPopup = isLoginPage && showPortfolio && !portfolioDismissed
 
   if (!spec) return null
 
@@ -35,7 +40,7 @@ const QAToolsOverlay = () => {
   return (
     <div className="fixed bottom-6 right-6 flex flex-col items-end gap-3 z-[100] isolate">
       {/* 1. Portfolio Cross-Link Popup */}
-      {showPortfolio && !portfolioDismissed && (
+      {showPortfolioPopup && (
         <div
           className="w-72 bg-white dark:bg-slate-800 border-t-4 border-t-indigo-600 rounded-2xl shadow-2xl p-4 mb-2 animate-in slide-in-from-bottom-5 fade-in duration-300 relative group"
           data-testid="portfolio-popup"

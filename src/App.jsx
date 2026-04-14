@@ -14,6 +14,7 @@ import NotFound from './pages/NotFound'
 import StatusPage from './pages/StatusPage'
 import Sandbox from './pages/Sandbox'
 import QAToolsOverlay from './components/qa/QAToolsOverlay'
+import ScrollToHash from './components/navigation/ScrollToHash'
 
 function App() {
   const [darkMode, _setDarkMode] = useState(() => {
@@ -47,6 +48,7 @@ function App() {
                 <Route path="*" element={<NotFound />} />
               </Routes>
               <Toast />
+              <ScrollToHash />
               <QAToolsOverlay />
             </div>
           </ToastProvider>

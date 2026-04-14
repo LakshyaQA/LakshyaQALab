@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import React, { useState, useEffect, useMemo, useRef } from 'react'
 import { useNetwork } from '../../context/NetworkContext'
 import { useLogger } from '../../context/LoggerContext'
 
@@ -22,23 +22,33 @@ const DataTable = () => {
   const { mockFetch } = useNetwork()
   const { addLog } = useLogger()
 
-  const fetchData = useCallback(async () => {
+  // Keep stable refs so the effect doesn't re-fire on every render
+  const mockFetchRef = useRef(mockFetch)
+  const addLogRef = useRef(addLog)
+  useEffect(() => {
+    mockFetchRef.current = mockFetch
+  }, [mockFetch])
+  useEffect(() => {
+    addLogRef.current = addLog
+  }, [addLog])
+
+  const fetchData = async () => {
     setLoading(true)
     setError(null)
     try {
-      await mockFetch('/api/v1/users')
+      await mockFetchRef.current('/api/v1/users')
       setData(fakeData)
     } catch (err) {
       setError(err.message)
-      addLog('error', 'Table failed to load data', { error: err.message })
+      addLogRef.current('error', 'Table failed to load data', { error: err.message })
     } finally {
       setLoading(false)
     }
-  }, [mockFetch, addLog])
+  }
 
   useEffect(() => {
     fetchData()
-  }, [fetchData]) // Re-fetch only on mount or if fetchData changes
+  }, []) // Mount-only fetch
 
   const sortedData = useMemo(() => {
     let sortableItems = [...data]
@@ -231,7 +241,10 @@ const DataTable = () => {
   }
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 overflow-hidden flex flex-col col-span-1 md:col-span-2 relative h-96">
+    <div
+      id="data-table"
+      className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 overflow-hidden flex flex-col col-span-1 md:col-span-2 relative h-96"
+    >
       <div className="px-6 py-4 border-b border-gray-200 dark:border-slate-700 flex justify-between items-center bg-gray-50/50 dark:bg-slate-800/50">
         <h3 className="font-semibold text-gray-800 dark:text-slate-200 flex items-center">
           <svg

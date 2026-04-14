@@ -71,10 +71,14 @@ const AdvancedForms = () => {
 
         <div className="p-8">
           <div className="max-w-xs relative overflow-visible">
-            <label className="block text-xs font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 mb-2">
+            <label
+              htmlFor="date-picker-trigger"
+              className="block text-xs font-black uppercase tracking-widest text-gray-600 dark:text-slate-400 mb-2"
+            >
               Select Target Date
             </label>
-            <div
+            <button
+              id="date-picker-trigger"
               onClick={() => setShowCalendar(!showCalendar)}
               className="w-full px-4 py-3 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-600 rounded-xl flex items-center justify-between cursor-pointer hover:border-blue-400 transition-colors"
               data-testid="date-picker-input"
@@ -99,7 +103,7 @@ const AdvancedForms = () => {
                   d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                 />
               </svg>
-            </div>
+            </button>
 
             {showCalendar && (
               <div
@@ -159,7 +163,10 @@ const AdvancedForms = () => {
 
                 <div className="grid grid-cols-7 gap-1 text-center mb-1">
                   {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(d => (
-                    <div key={d} className="text-[10px] font-black text-gray-400 uppercase">
+                    <div
+                      key={d}
+                      className="text-[10px] font-black text-gray-500 dark:text-slate-400 uppercase"
+                    >
                       {d}
                     </div>
                   ))}
@@ -209,9 +216,12 @@ const AdvancedForms = () => {
 
           <div className="bg-gray-50 dark:bg-slate-900/50 p-6 rounded-2xl">
             <div className="flex justify-between items-center mb-4">
-              <span className="text-xs font-black uppercase tracking-widest text-gray-400">
+              <label
+                htmlFor="price-slider"
+                className="text-xs font-black uppercase tracking-widest text-gray-600 dark:text-slate-400"
+              >
                 Budget Limit
-              </span>
+              </label>
               <span
                 className="text-lg font-black text-blue-600 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 rounded-xl"
                 data-testid="slider-value"
@@ -220,13 +230,14 @@ const AdvancedForms = () => {
               </span>
             </div>
             <input
+              id="price-slider"
               type="range"
               min="0"
               max="1000"
               step="50"
               value={priceRange}
               onChange={e => setPriceRange(e.target.value)}
-              className="w-full h-2 bg-gray-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-600"
+              className="w-full h-2 bg-gray-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
               data-testid="price-slider"
             />
             <div className="flex justify-between mt-2 text-[10px] font-bold text-gray-400 uppercase tracking-tighter">
@@ -271,13 +282,17 @@ const AdvancedForms = () => {
                 </span>
               ))}
             </div>
+            <label htmlFor="tag-input" className="sr-only">
+              Add Tag
+            </label>
             <input
+              id="tag-input"
               type="text"
               placeholder="Type tag and press Enter..."
               value={tagInput}
               onChange={e => setTagInput(e.target.value)}
               onKeyDown={handleTagAdd}
-              className="w-full bg-transparent border-none outline-none text-sm p-2 text-gray-900 dark:text-white"
+              className="w-full bg-transparent border-none outline-none text-sm p-2 text-gray-900 dark:text-white focus:ring-1 focus:ring-blue-100 rounded"
               data-testid="tag-input"
             />
           </div>
