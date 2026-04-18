@@ -68,6 +68,31 @@ export const QA_SPECS = {
         ],
         selector: 'login-username',
       },
+      {
+        id: 'L-05',
+        priority: 'P0',
+        tag: 'storage',
+        title: 'Remember Me Persistence (localStorage)',
+        steps: [
+          'Login with "Remember Me" Checked',
+          'Assert token exists in localStorage',
+          'Reload page',
+          'Assert state remains "Authenticated"',
+        ],
+        selector: 'login-remember-me',
+      },
+      {
+        id: 'L-06',
+        priority: 'P1',
+        tag: 'storage',
+        title: 'Session Non-Persistence (sessionStorage)',
+        steps: [
+          'Login with "Remember Me" Unchecked',
+          'Assert token exists in sessionStorage',
+          'Verify localStorage is null',
+        ],
+        selector: 'login-remember-me',
+      },
     ],
     masterPrompt: `Expert QA: Generate Playwright TS test for Login. URL: /login. Selectors: login-username, login-password, login-submit, login-remember-me, lockout-banner. Scenarios: Happy path, Empty validation, 5x Lockout sequence.`,
   },
@@ -207,6 +232,32 @@ export const QA_SPECS = {
     ],
     testScenarios: [
       {
+        id: 'G-01',
+        priority: 'P0',
+        tag: 'expert',
+        title: 'Shadow DOM Piercing',
+        steps: [
+          'Locate #shadow-host-container',
+          'Access shadowRoot',
+          'Click #shadow-action-btn',
+          'Assert "SUCCESS: Shadow DOM interaction detected!" log appears',
+        ],
+        selector: 'shadow-host-container',
+      },
+      {
+        id: 'G-02',
+        priority: 'P1',
+        tag: 'robustness',
+        title: 'Dynamic ID Resilience',
+        steps: [
+          'Locate button by data-testid="flaky-id-btn"',
+          'Hover to change ID',
+          'Confirm ID changed but locator still works',
+          'Click button',
+        ],
+        selector: 'flaky-id-btn',
+      },
+      {
         id: 'S-01',
         priority: 'P0',
         tag: 'smoke',
@@ -307,5 +358,127 @@ export const QA_SPECS = {
       },
     ],
     masterPrompt: `Expert QA: Playwright TS test for StatusPage. Validate content changes based on 'code' query parameter.`,
+  },
+  '/shop': {
+    title: 'E-Commerce Shop',
+    acceptanceCriteria: [
+      {
+        section: '1. Discovery & Filtering',
+        items: [
+          'Product search correctly filters by title (case-insensitive).',
+          'Category sidebar filters list by product type.',
+          'Price Range slider ($0-$2000) removes items exceeding the threshold.',
+        ],
+      },
+      {
+        section: '2. Cart Management',
+        items: [
+          'Add to Cart button (FAB style) increments cart badge count.',
+          'Cart drawer displays all added items with correct prices and images.',
+          'Quantity controls (+/-) update item count and subtotal in real-time.',
+          'Remove button deletes item from cart completely.',
+        ],
+      },
+      {
+        section: '3. Checkout Flow',
+        items: [
+          'Proceed to Checkout button is disabled if cart is empty.',
+          'Shipping form requires name and address validation.',
+          'Mock payment simulation shows a "Processing" state before completion.',
+          'Success alert displays a mock order ID after successful checkout.',
+        ],
+      },
+    ],
+    testScenarios: [
+      {
+        id: 'SHOP-01',
+        priority: 'P0',
+        tag: 'smoke',
+        title: 'Complete Purchase Flow',
+        steps: [
+          'Add "Ultra Gaming Laptop" to cart',
+          'Open Cart Drawer',
+          'Click "Proceed to Checkout"',
+          'Fill name and address',
+          'Click "Place Order"',
+          'Assert success alert appears',
+        ],
+        selector: 'place-order-btn',
+      },
+      {
+        id: 'SHOP-02',
+        priority: 'P1',
+        tag: 'logic',
+        title: 'Price Range Filter Verification',
+        steps: [
+          'Set price slider to $100',
+          'Assert "Ultra Gaming Laptop" ($1499) is hidden',
+          'Assert "Pro Wireless Mouse" ($79) is visible',
+        ],
+        selector: 'shop-price-range',
+      },
+      {
+        id: 'SHOP-03',
+        priority: 'P0',
+        tag: 'functional',
+        title: 'Cart Persistence & Quantity Calc',
+        steps: [
+          'Add "Pro Wireless Mouse" (79.99)',
+          'Add it again',
+          'Open Cart',
+          'Assert quantity is 2',
+          'Assert subtotal is $159.98',
+        ],
+        selector: 'cart-drawer',
+      },
+    ],
+    masterPrompt: `Expert QA: Playwright TS test for Shop checkout flow. URL: /shop. Use selectors: add-to-cart-btn, header-cart-btn, checkout-btn, place-order-btn. Verify cart sum logic and validation.`,
+  },
+  '/random-test': {
+    title: 'IFrame & Media Lab',
+    acceptanceCriteria: [
+      {
+        section: '1. Iframe Switching',
+        items: [
+          'YouTube Iframe (Fahhh Meme) loads correctly and is switchable.',
+          'Interactive Iframe (Ping Parent) loads with local srcDoc content.',
+        ],
+      },
+      {
+        section: '2. Media & State Verification',
+        items: [
+          'YouTube player supports standard Iframe API (autoplay/mute verification).',
+          'Parent Counter increments correctly when "Ping Parent" is clicked inside the Iframe.',
+        ],
+      },
+    ],
+    testScenarios: [
+      {
+        id: 'IF-01',
+        priority: 'P0',
+        tag: 'cross-frame',
+        title: 'Iframe Context Switch & Click',
+        steps: [
+          'Locate iframe[data-testid="interactive-iframe"]',
+          'Switch to iframe context',
+          'Click button with text "Ping Parent"',
+          'Switch back to parent context',
+          'Assert text content of data-testid="parent-counter" is "1"',
+        ],
+        selector: 'interactive-iframe',
+      },
+      {
+        id: 'IF-02',
+        priority: 'P1',
+        tag: 'media',
+        title: 'Video Iframe Presence',
+        steps: [
+          'Verify iframe[data-testid="fahhh-iframe"] is visible',
+          'Check that src attribute contains youtube.com/embed/',
+        ],
+        selector: 'fahhh-iframe',
+      },
+    ],
+    masterPrompt: `Expert QA: Playwright TS test for Iframe switching. Use 'frameLocator' to target data-testid="interactive-iframe" and click button. Verify parent-counter updates.`,
   },
 }

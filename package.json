@@ -24,8 +24,10 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@tailwindcss/postcss": "^4.2.2",
     "framer-motion": "^12.38.0",
+    "openai": "^6.34.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-router-dom": "^7.14.0"

@@ -30,13 +30,28 @@ const Dashboard = () => {
       navigate('/login')
     }
 
+    let ticking = false
     const handleScroll = () => {
-      const y = window.scrollY
-      setIsScrolled(prev => {
-        if (!prev && y > 60) return true // only collapse after 60px down
-        if (prev && y < 10) return false // only expand back when near top
-        return prev // no change in between — no wobble
-      })
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          // Disable scroll effects on mobile for stability
+          if (window.innerWidth < 768) {
+            setIsScrolled(false)
+            ticking = false
+            return
+          }
+
+          const y = window.scrollY
+          setIsScrolled(prev => {
+            // Wider hysteresis gap: 80px to collapse, < 20px to expand
+            if (!prev && y > 80) return true
+            if (prev && y < 20) return false
+            return prev
+          })
+          ticking = false
+        })
+        ticking = true
+      }
     }
 
     window.addEventListener('scroll', handleScroll)
@@ -53,64 +68,70 @@ const Dashboard = () => {
         <div
           className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'px-0 pt-0' : 'pt-8 px-8'}`}
         >
-          <div className="max-w-6xl mx-auto">
+          <div
+            className={`transition-all duration-500 ${isScrolled ? 'max-w-none w-full' : 'max-w-6xl mx-auto'}`}
+          >
             <header
-              className={`flex justify-between items-center bg-white/95 dark:bg-slate-800/95 backdrop-blur-md shadow-lg border-b border-gray-200 dark:border-slate-700 transition-all duration-500 ${isScrolled ? 'p-3 rounded-none' : 'p-5 rounded-xl'}`}
+              className={`flex justify-between items-center bg-white/95 dark:bg-slate-800/95 backdrop-blur-md shadow-lg border-b border-gray-200 dark:border-slate-700 transition-all duration-500 ${isScrolled ? 'p-3 px-8 rounded-none' : 'p-5 rounded-xl'}`}
               data-testid="dashboard-header"
             >
-              <div className="flex items-center space-x-4">
-                {/* Hamburger Menu Toggle */}
-                <button
-                  onClick={() => setIsSidebarOpen(true)}
-                  className="p-2 -ml-1 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors"
-                  aria-label="Open menu"
-                  data-testid="sidebar-toggle"
-                >
-                  <svg
-                    className="w-6 h-6 text-gray-600 dark:text-slate-300"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+              <div
+                className={`flex items-center justify-between w-full ${isScrolled ? 'max-w-6xl mx-auto' : ''}`}
+              >
+                <div className="flex items-center space-x-4">
+                  {/* Hamburger Menu Toggle */}
+                  <button
+                    onClick={() => setIsSidebarOpen(true)}
+                    className="p-2 -ml-1 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors"
+                    aria-label="Open menu"
+                    data-testid="sidebar-toggle"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 6h16M4 12h16M4 18h16"
-                    />
-                  </svg>
-                </button>
+                    <svg
+                      className="w-6 h-6 text-gray-600 dark:text-slate-300"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4 6h16M4 12h16M4 18h16"
+                      />
+                    </svg>
+                  </button>
 
-                <div
-                  className={`transition-all duration-300 ${isScrolled ? 'scale-90' : 'scale-100'}`}
-                >
-                  <h1
-                    className={`font-bold text-gray-900 dark:text-white transition-all duration-300 ${isScrolled ? 'text-lg' : 'text-2xl'}`}
-                  >
-                    QA Automation Lab
-                  </h1>
                   <div
-                    className={`flex items-center transition-all duration-300 ${isScrolled ? 'opacity-0 h-0 w-0 overflow-hidden' : 'opacity-100 mt-1 h-5'}`}
+                    className={`transition-all duration-300 ${isScrolled ? 'scale-90' : 'scale-100'}`}
                   >
-                    <span className="w-2 h-2 rounded-full bg-green-500 mr-2 flex-shrink-0"></span>
-                    <span className="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
-                      Authenticated Session Active
-                    </span>
+                    <h1
+                      className={`font-bold text-gray-900 dark:text-white transition-all duration-300 ${isScrolled ? 'text-lg' : 'text-2xl'}`}
+                    >
+                      QA Automation Lab
+                    </h1>
+                    <div
+                      className={`flex items-center transition-all duration-300 ${isScrolled ? 'opacity-0 h-0 w-0 overflow-hidden' : 'opacity-100 mt-1 h-5'}`}
+                    >
+                      <span className="w-2 h-2 rounded-full bg-green-500 mr-2 flex-shrink-0"></span>
+                      <span className="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
+                        Authenticated Session Active
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="flex items-center space-x-4">
-                <button
-                  onClick={() => {
-                    logout()
-                    navigate('/login')
-                  }}
-                  className={`border-2 border-rose-500 text-rose-500 font-bold rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-all duration-300 ${isScrolled ? 'px-3 py-1.5 text-xs uppercase' : 'px-5 py-2'}`}
-                  data-testid="logout-btn"
-                >
-                  Logout
-                </button>
+                <div className="flex items-center space-x-4">
+                  <button
+                    onClick={() => {
+                      logout()
+                      navigate('/login')
+                    }}
+                    className={`border-2 border-rose-500 text-rose-500 font-bold rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-all duration-300 ${isScrolled ? 'px-3 py-1.5 text-xs uppercase' : 'px-5 py-2'}`}
+                    data-testid="logout-btn"
+                  >
+                    Logout
+                  </button>
+                </div>
               </div>
             </header>
           </div>
