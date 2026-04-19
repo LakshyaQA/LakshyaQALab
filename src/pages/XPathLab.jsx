@@ -82,8 +82,9 @@ const XPathLab = () => {
     const hasBracket = fixed.includes('[')
     const hasAt = fixed.includes('@')
     const isConversational = /^[a-zA-Z0-9\s?,.!]+$/.test(fixed)
+    const isUrl = fixed.startsWith('http://') || fixed.startsWith('https://')
 
-    if (isConversational || (!hasSlash && !hasBracket && !hasAt && fixed.length > 3)) {
+    if (isUrl || isConversational || (!hasSlash && !hasBracket && !hasAt && fixed.length > 3)) {
       setAnalysis({
         errors: [
           'Critical Error: This is not a valid XPath or CSS locator.',
@@ -269,33 +270,6 @@ const XPathLab = () => {
   const askAi = async () => {
     const fixed = inputXpath.trim()
     if (!fixed) return
-
-    // ── Pre-AI Validation: Prevent API calls for conversational gibberish ──
-    const hasSlash = fixed.includes('/')
-    const hasBracket = fixed.includes('[')
-    const hasAt = fixed.includes('@')
-    // Allow conversational text checks (including spaces and question marks)
-    const isConversational = /^[a-zA-Z0-9\s?,.!]+$/.test(fixed)
-
-    if (isConversational || (!hasSlash && !hasBracket && !hasAt && fixed.length > 3)) {
-      setAnalysis({
-        errors: [
-          'Critical Error: This is not a valid XPath or CSS locator.',
-          "XPath must start with '/' or '//' and use brackets for predicates.",
-          `Your input: "${fixed}" contains no recognizable locator structure.`,
-        ],
-        fixed: 'N/A — Input is not a locator.',
-        suggestions: [
-          "Relative XPath: //tagName[@attribute='value']",
-          'CSS Selector: tagName#id or tagName.className',
-        ],
-        best5: ["//*[@data-testid='target']"],
-        isAiGenerated: false,
-        isInvalid: true,
-      })
-      addLog('error', `AI aborted. Rejected invalid non-locator input: ${inputXpath}`)
-      return
-    }
 
     setIsAiLoading(true)
     setAnalysis(null)

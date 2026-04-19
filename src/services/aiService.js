@@ -19,23 +19,6 @@ class AIService {
     this.client = this.apiKey ? this.createClient(this.apiKey) : null
   }
 
-  // Built-in intelligent mock to ensure "Perfect" results even if API is 401
-  generateMockFix(xpath, tool) {
-    let tag = '*'
-    if (tool === 'AppiumAndroid') tag = 'android.widget.TextView'
-    else if (tool === 'AppiumIOS') tag = 'XCUIElementTypeStaticText'
-    else tag = 'p'
-
-    if (xpath.includes('39itexyt') || xpath.includes('tytrtrtrtr')) {
-      return `//${tag}[@text='tytrtrtrtr,;pooi'][position()=9]`
-    }
-    if (xpath.includes('9099')) {
-      return `//${tag}[@text='9099' and contains(@class, 'optext')][position()=23]`
-    }
-
-    return `//${tag}[@data-testid='robust-mock']`
-  }
-
   createClient(key) {
     return new OpenAI({
       baseURL: 'https://openrouter.ai/api/v1',
@@ -120,23 +103,9 @@ class AIService {
       return JSON.parse(jsonStr)
     } catch (e) {
       console.error('OpenRouter API Error:', e)
-
-      // Professional Mock Fallback:
-      // If the API key is invalid/revoked (401) or network fails,
-      // instantly return an Expert Simulated response so the UI remains pristine.
-      return {
-        isValid: true,
-        fixed: this.generateMockFix(xpath, tool),
-        explanation:
-          'Simulated Expert AI analysis. The original XPath was structurally compromised or severely mangled. We intercepted the failure, sanitized illegal characters, enforced correct property syntax, and structured the path according to platform-specific best practices.',
-        proTip:
-          'To ensure maximum stability and cross-engine support, always prefer unique semantic IDs over positional indexes. Note: This is an Expert Simulated result due to OpenRouter engine API constraints.',
-        issues: [
-          'Critical Syntax Error: corrupted element tags and unbalanced brackets.',
-          'Attribute Error: missing single quotes on attributes.',
-          '(API Status: Expert Simulated Response Activated -> 401)',
-        ],
-      }
+      throw new Error(
+        e.response?.data?.error?.message || e.message || 'Failed to connect to OpenRouter'
+      )
     }
   }
 
