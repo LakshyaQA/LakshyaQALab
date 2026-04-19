@@ -648,31 +648,29 @@ const Login = () => {
           </button>
         </form>
 
-        {/* Test Credentials — hidden in production */}
-        {import.meta.env.DEV && (
-          <div
-            className="mt-6 text-center text-sm pt-5"
-            style={{ borderTop: `1px solid ${isDarkTheme ? 'rgba(99,102,241,0.15)' : '#f1f5f9'}` }}
-            data-testid="test-credentials"
+        {/* Test Credentials — visible in all environments for sandbox testing */}
+        <div
+          className="mt-6 text-center text-sm pt-5"
+          style={{ borderTop: `1px solid ${isDarkTheme ? 'rgba(99,102,241,0.15)' : '#f1f5f9'}` }}
+          data-testid="test-credentials"
+        >
+          <p
+            className="text-xs uppercase tracking-wide mb-2 font-semibold"
+            style={{ color: '#6366f1', letterSpacing: '0.1em' }}
           >
-            <p
-              className="text-xs uppercase tracking-wide mb-2 font-semibold"
-              style={{ color: '#6366f1', letterSpacing: '0.1em' }}
-            >
-              DEV ONLY — Test Credentials
-            </p>
-            <p
-              className="font-mono inline-block px-3 py-1.5 rounded-lg text-sm"
-              style={{
-                background: isDarkTheme ? 'rgba(79,70,229,0.1)' : '#eef2ff',
-                border: '1px solid rgba(99,102,241,0.25)',
-                color: isDarkTheme ? '#a5b4fc' : '#4f46e5',
-              }}
-            >
-              admin / Qwerty@1234
-            </p>
-          </div>
-        )}
+            Sandbox — Test Credentials
+          </p>
+          <p
+            className="font-mono inline-block px-3 py-1.5 rounded-lg text-sm"
+            style={{
+              background: isDarkTheme ? 'rgba(79,70,229,0.1)' : '#eef2ff',
+              border: '1px solid rgba(99,102,241,0.25)',
+              color: isDarkTheme ? '#a5b4fc' : '#4f46e5',
+            }}
+          >
+            admin / Qwerty@1234
+          </p>
+        </div>
       </div>
     </div>
   )

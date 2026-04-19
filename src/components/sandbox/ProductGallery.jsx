@@ -107,6 +107,17 @@ const ProductGallery = () => {
     addLog('action', `Product search filtered: "${val}"`)
   }
 
+  const scrollRef = React.useRef(null)
+
+  const scroll = direction => {
+    if (scrollRef.current) {
+      const { scrollLeft, clientWidth } = scrollRef.current
+      const scrollTo =
+        direction === 'left' ? scrollLeft - clientWidth / 2 : scrollLeft + clientWidth / 2
+      scrollRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' })
+    }
+  }
+
   return (
     <div
       className="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden"
@@ -182,75 +193,112 @@ const ProductGallery = () => {
         </div>
       </div>
 
-      {/* Product List */}
-      <div className="p-8">
+      {/* Product List - Carousel Style */}
+      <div className="p-8 relative group">
         {filteredProducts.length === 0 ? (
           <div className="py-20 text-center">
             <div className="text-4xl mb-4">🔍</div>
             <p className="text-gray-500 font-medium">No products match your criteria.</p>
           </div>
         ) : (
-          <div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-            data-testid="product-list"
-          >
-            {filteredProducts.map(product => (
-              <div
-                key={product.id}
-                className="group border border-gray-100 dark:border-slate-700 rounded-2xl p-4 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/5 hover:-translate-y-1 bg-white dark:bg-slate-800/50"
-                data-testid={`product-card-${product.id}`}
-              >
-                <div className="h-32 bg-gray-50 dark:bg-slate-900 rounded-xl mb-4 flex items-center justify-center text-5xl group-hover:scale-110 transition-transform duration-500">
-                  {product.img}
-                </div>
-                <div className="mb-1 text-[10px] font-black text-blue-500 uppercase tracking-widest">
-                  {product.category}
-                </div>
-                <h3
-                  className="font-bold text-gray-900 dark:text-white mb-1 line-clamp-1"
-                  data-testid="product-name"
+          <>
+            {/* Scroll Buttons */}
+            <button
+              onClick={() => scroll('left')}
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white dark:bg-slate-700 shadow-xl border border-gray-100 dark:border-slate-600 flex items-center justify-center text-gray-600 dark:text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-gray-50 dark:hover:bg-slate-600 active:scale-90"
+              aria-label="Scroll left"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+            <button
+              onClick={() => scroll('right')}
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white dark:bg-slate-700 shadow-xl border border-gray-100 dark:border-slate-600 flex items-center justify-center text-gray-600 dark:text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-gray-50 dark:hover:bg-slate-600 active:scale-90"
+              aria-label="Scroll right"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+
+            <div
+              ref={scrollRef}
+              className="flex overflow-x-auto gap-6 pb-6 px-2 scroll-smooth no-scrollbar snap-x snap-mandatory"
+              data-testid="product-list"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            >
+              {filteredProducts.map(product => (
+                <div
+                  key={product.id}
+                  className="flex-shrink-0 w-[280px] snap-start group border border-gray-100 dark:border-slate-700 rounded-2xl p-4 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/5 hover:-translate-y-1 bg-white dark:bg-slate-800/50"
+                  data-testid={`product-card-${product.id}`}
                 >
-                  {product.name}
-                </h3>
-                <div className="flex items-center justify-between mb-4">
-                  <span
-                    className="text-lg font-black text-gray-900 dark:text-white"
-                    data-testid="product-price"
-                  >
-                    ${product.price.toFixed(2)}
-                  </span>
-                  <div className="flex items-center gap-1">
-                    <span className="text-yellow-400 text-xs">⭐</span>
-                    <span
-                      className="text-xs font-bold text-gray-500 dark:text-slate-400"
-                      data-testid="product-rating"
-                    >
-                      {product.rating}
-                    </span>
+                  <div className="h-44 bg-gray-50 dark:bg-slate-900 rounded-xl mb-4 flex items-center justify-center text-6xl group-hover:scale-110 transition-transform duration-500">
+                    {product.img}
                   </div>
+                  <div className="flex justify-between items-start mb-1">
+                    <div className="text-[10px] font-black text-blue-500 uppercase tracking-widest">
+                      {product.category}
+                    </div>
+                    {product.stock > 0 && product.stock < 10 && (
+                      <span className="text-[9px] bg-rose-50 text-rose-500 px-2 py-0.5 rounded-full font-bold uppercase">
+                        Low Stock
+                      </span>
+                    )}
+                  </div>
+                  <h3
+                    className="font-bold text-gray-900 dark:text-white mb-1 line-clamp-1"
+                    data-testid="product-name"
+                  >
+                    {product.name}
+                  </h3>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex flex-col">
+                      <span
+                        className="text-lg font-black text-gray-900 dark:text-white"
+                        data-testid="product-price"
+                      >
+                        ${product.price.toFixed(2)}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <span className="text-yellow-400 text-xs">⭐</span>
+                      <span
+                        className="text-xs font-bold text-gray-500 dark:text-slate-400"
+                        data-testid="product-rating"
+                      >
+                        {product.rating}
+                      </span>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => handleAddToCart(product)}
+                    disabled={product.stock === 0}
+                    className={`w-full py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all duration-200 ${
+                      product.stock === 0
+                        ? 'bg-gray-100 dark:bg-slate-800 text-gray-400 cursor-not-allowed'
+                        : 'bg-blue-600 text-white hover:bg-blue-700 shadow-md shadow-blue-500/20 active:scale-95'
+                    }`}
+                    data-testid="add-to-cart-btn"
+                  >
+                    {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
+                  </button>
                 </div>
-
-                <button
-                  onClick={() => handleAddToCart(product)}
-                  disabled={product.stock === 0}
-                  className={`w-full py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all duration-200 ${
-                    product.stock === 0
-                      ? 'bg-gray-100 dark:bg-slate-800 text-gray-400 cursor-not-allowed'
-                      : 'bg-blue-600 text-white hover:bg-blue-700 shadow-md shadow-blue-500/20 active:scale-95'
-                  }`}
-                  data-testid="add-to-cart-btn"
-                >
-                  {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
-                </button>
-
-                {product.stock > 0 && product.stock < 10 && (
-                  <p className="mt-2 text-[10px] text-center text-rose-500 font-bold uppercase tracking-tight">
-                    Only {product.stock} left!
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
 

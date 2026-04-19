@@ -6,28 +6,41 @@ import TestScenariosModal from '../sandbox/TestScenariosPanel'
 
 const QAToolsOverlay = () => {
   const location = useLocation()
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+  const [isExpanded, setIsExpanded] = useState(false)
+  const [showHint, setShowHint] = useState(true)
+
+  // ── Mobile Detection ─────────────────────────────────────────────────────────
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  // ── Hint Logic (2s on load) ───────────────────────────────────────────────────
+  useEffect(() => {
+    const timer = setTimeout(() => setShowHint(false), 2000)
+    return () => clearTimeout(timer)
+  }, [location.pathname])
 
   const spec = useMemo(() => {
     const currentPath = location.pathname
-    return QA_SPECS[currentPath] || QA_SPECS['/login'] // Fallback to login as default spec
+    return QA_SPECS[currentPath] || QA_SPECS['/login']
   }, [location])
 
   const [showAC, setShowAC] = useState(false)
   const [showTS, setShowTS] = useState(false)
 
-  // Portfolio Cross-Link Popup State — only on login page
   const [showPortfolio, setShowPortfolio] = useState(false)
   const [portfolioDismissed, setPortfolioDismissed] = useState(false)
   const isLoginPage = location.pathname === '/login' || location.pathname === '/'
 
   useEffect(() => {
     if (!isLoginPage) return
-    // Show portfolio popup after 2s on login page unless dismissed
     const timer = setTimeout(() => setShowPortfolio(true), 2000)
     return () => clearTimeout(timer)
   }, [isLoginPage])
 
-  // Only show popup on login page
   const showPortfolioPopup = isLoginPage && showPortfolio && !portfolioDismissed
 
   if (!spec) return null
@@ -37,12 +50,68 @@ const QAToolsOverlay = () => {
     setPortfolioDismissed(true)
   }
 
+  // Common styles for the buttons
+  const acButton = (
+    <button
+      onClick={() => {
+        setShowAC(true)
+        if (isMobile) setIsExpanded(false)
+      }}
+      className="flex items-center gap-2.5 px-4 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-xl hover:shadow-2xl hover:border-emerald-500/50 transition-all duration-300 group active:scale-95"
+      data-testid="ac-open-btn"
+    >
+      <div className="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300">
+        <svg className="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2.5}
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+      </div>
+      <div className="flex flex-col items-start leading-none">
+        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">
+          QA Spec
+        </span>
+        <span className="text-xs font-black text-slate-700 dark:text-slate-200 uppercase tracking-tight">
+          Acceptance Criteria
+        </span>
+      </div>
+    </button>
+  )
+
+  const tsButton = (
+    <button
+      onClick={() => {
+        setShowTS(true)
+        if (isMobile) setIsExpanded(false)
+      }}
+      className="flex items-center gap-2.5 px-5 py-3.5 bg-indigo-600 hover:bg-indigo-700 rounded-2xl shadow-xl shadow-indigo-600/25 hover:shadow-indigo-600/40 transition-all duration-300 active:scale-95 group"
+      data-testid="ts-open-btn"
+    >
+      <div className="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-lg shadow-inner group-hover:scale-110 transition-transform">
+        🤖
+      </div>
+      <div className="flex flex-col items-start leading-none">
+        <span className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-1">
+          Automation Hub
+        </span>
+        <span className="text-sm font-black text-white uppercase tracking-tight">
+          Tests to Automate
+        </span>
+      </div>
+    </button>
+  )
+
   return (
-    <div className="fixed bottom-6 right-6 flex flex-col items-end gap-3 z-[100] isolate">
+    <div
+      className={`fixed bottom-6 right-6 flex flex-col items-end gap-3 z-[100] isolate ${isMobile ? 'pointer-events-none' : ''}`}
+    >
       {/* 1. Portfolio Cross-Link Popup */}
       {showPortfolioPopup && (
         <div
-          className="w-72 bg-white dark:bg-slate-800 border-t-4 border-t-indigo-600 rounded-2xl shadow-2xl p-4 mb-2 animate-in slide-in-from-bottom-5 fade-in duration-300 relative group"
+          className="w-72 bg-white dark:bg-slate-800 border-t-4 border-t-indigo-600 rounded-2xl shadow-2xl p-4 mb-2 animate-in slide-in-from-bottom-5 fade-in duration-300 relative group pointer-events-auto"
           data-testid="portfolio-popup"
         >
           <button
@@ -59,7 +128,6 @@ const QAToolsOverlay = () => {
               />
             </svg>
           </button>
-
           <div className="flex gap-3 items-start mb-3">
             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-lg flex-shrink-0 shadow-lg shadow-indigo-500/20">
               👋
@@ -77,7 +145,6 @@ const QAToolsOverlay = () => {
               </p>
             </div>
           </div>
-
           <div className="flex gap-2">
             <button
               onClick={handleVisitPortfolio}
@@ -105,59 +172,60 @@ const QAToolsOverlay = () => {
         </div>
       )}
 
-      {/* 2. Acceptance Criteria Button */}
-      <button
-        onClick={() => setShowAC(true)}
-        className="flex items-center gap-2.5 px-4 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-xl hover:shadow-2xl hover:border-emerald-500/50 transition-all duration-300 group active:scale-95"
-        data-testid="ac-open-btn"
-      >
-        <div className="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300">
-          <svg className="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2.5}
-              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-        </div>
-        <div className="flex flex-col items-start leading-none">
-          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">
-            QA Spec
-          </span>
-          <span className="text-xs font-black text-slate-700 dark:text-slate-200 uppercase tracking-tight">
-            Acceptance Criteria
-          </span>
-        </div>
-      </button>
+      {/* 2 & 3. Buttons (Responsive logic) */}
+      {!isMobile ? (
+        <>
+          {acButton}
+          {tsButton}
+        </>
+      ) : (
+        <div className="flex flex-col items-end gap-3 pointer-events-auto">
+          {isExpanded && (
+            <div className="flex flex-col items-end gap-3 mb-2 animate-in slide-in-from-bottom-5 duration-300">
+              {acButton}
+              {tsButton}
+            </div>
+          )}
 
-      {/* 3. Tests to Automate Button */}
-      <button
-        onClick={() => setShowTS(true)}
-        className="flex items-center gap-2.5 px-5 py-3.5 bg-indigo-600 hover:bg-indigo-700 rounded-2xl shadow-xl shadow-indigo-600/25 hover:shadow-indigo-600/40 transition-all duration-300 active:scale-95 group"
-        data-testid="ts-open-btn"
-      >
-        <div className="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-lg shadow-inner group-hover:scale-110 transition-transform">
-          🤖
+          <div className="flex items-center gap-3">
+            {(showHint || isExpanded) && !isExpanded && (
+              <div className="bg-slate-900 text-white text-[10px] px-3 py-1.5 rounded-full font-black uppercase tracking-widest shadow-xl animate-in fade-in slide-in-from-right-4 duration-300">
+                QA Tools
+              </div>
+            )}
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className={`w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 ${isExpanded ? 'bg-slate-800 rotate-45 scale-90' : 'bg-indigo-600 animate-bounce-slow'}`}
+              data-testid="qa-tools-fab"
+            >
+              {isExpanded ? (
+                <svg
+                  className="w-6 h-6 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={3}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              ) : (
+                <span className="text-2xl">🧪</span>
+              )}
+            </button>
+          </div>
         </div>
-        <div className="flex flex-col items-start leading-none">
-          <span className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-1">
-            Automation Hub
-          </span>
-          <span className="text-sm font-black text-white uppercase tracking-tight">
-            Tests to Automate
-          </span>
-        </div>
-      </button>
+      )}
 
-      {/* Modals */}
       <ACModal
         isOpen={showAC}
         onClose={() => setShowAC(false)}
         title={spec.title}
         criteria={spec.acceptanceCriteria}
       />
-
       <TestScenariosModal
         isOpen={showTS}
         onClose={() => setShowTS(false)}

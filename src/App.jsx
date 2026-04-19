@@ -13,8 +13,12 @@ import Dashboard from './pages/Dashboard'
 import NotFound from './pages/NotFound'
 import StatusPage from './pages/StatusPage'
 import Sandbox from './pages/Sandbox'
+import Shop from './pages/Shop'
+import RandomTest from './pages/RandomTest'
+import XPathLab from './pages/XPathLab'
 import QAToolsOverlay from './components/qa/QAToolsOverlay'
 import ScrollToHash from './components/navigation/ScrollToHash'
+import ScrollToTop from './components/navigation/ScrollToTop'
 
 function App() {
   const [darkMode, _setDarkMode] = useState(() => {
@@ -44,10 +48,14 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/sandbox" element={<Sandbox />} />
+                <Route path="/shop" element={<Shop />} />
+                <Route path="/random-test" element={<RandomTest />} />
+                <Route path="/xpath-lab" element={<XPathLab />} />
                 <Route path="/maintenance" element={<StatusPage />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
               <Toast />
+              <ScrollToTop />
               <ScrollToHash />
               <QAToolsOverlay />
             </div>

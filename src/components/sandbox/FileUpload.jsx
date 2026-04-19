@@ -208,7 +208,7 @@ const FileUpload = () => {
                 ></path>
               </svg>
             </div>
-            <p className="text-sm font-semibold text-gray-800 dark:text-slate-200 mb-2 truncate max-w-xs">
+            <p className="text-sm font-semibold text-gray-800 dark:text-slate-200 mb-2 break-all line-clamp-2 text-center px-4">
               {file?.name}
             </p>
             <div className="w-full max-w-xs bg-gray-200 dark:bg-slate-700 rounded-full h-2.5">
@@ -241,7 +241,7 @@ const FileUpload = () => {
             <p className="text-emerald-700 dark:text-emerald-400 font-semibold mb-1">
               Upload Complete
             </p>
-            <p className="text-xs text-emerald-600/70 dark:text-emerald-400/70 font-mono mb-4 truncate px-4">
+            <p className="text-xs text-emerald-600/70 dark:text-emerald-400/70 font-mono mb-4 break-all line-clamp-2 px-6 text-center">
               {file?.name}
             </p>
             <button

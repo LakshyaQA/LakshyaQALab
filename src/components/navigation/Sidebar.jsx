@@ -20,6 +20,24 @@ const Sidebar = ({ isOpen, onClose }) => {
       icon: '📅',
       category: 'Advanced Scenarios',
     },
+    {
+      name: 'E-Comm Experience',
+      path: '/shop',
+      icon: '🛒',
+      category: 'E-Commerce',
+    },
+    {
+      name: 'IFrame & Media Lab',
+      path: '/random-test',
+      icon: '🧪',
+      category: 'Experimental',
+    },
+    {
+      name: 'XPath & Locator Lab',
+      path: '/xpath-lab',
+      icon: '📍',
+      category: 'Academy',
+    },
   ]
 
   const categories = [...new Set(menuItems.map(item => item.category))]
