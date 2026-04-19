@@ -18,6 +18,7 @@ import RandomTest from './pages/RandomTest'
 import XPathLab from './pages/XPathLab'
 import QAToolsOverlay from './components/qa/QAToolsOverlay'
 import ScrollToHash from './components/navigation/ScrollToHash'
+import ScrollToTop from './components/navigation/ScrollToTop'
 
 function App() {
   const [darkMode, _setDarkMode] = useState(() => {
@@ -54,6 +55,7 @@ function App() {
                 <Route path="*" element={<NotFound />} />
               </Routes>
               <Toast />
+              <ScrollToTop />
               <ScrollToHash />
               <QAToolsOverlay />
             </div>

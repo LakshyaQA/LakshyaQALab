@@ -66,7 +66,7 @@ const Dashboard = () => {
       <div className="min-h-screen bg-gray-50 dark:bg-slate-900 transition-colors duration-300">
         {/* Sticky Header Wrapper */}
         <div
-          className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'px-0 pt-0' : 'pt-8 px-8'}`}
+          className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'px-0 pt-0' : 'pt-4 px-4 md:pt-8 md:px-8'}`}
         >
           <div
             className={`transition-all duration-500 ${isScrolled ? 'max-w-none w-full' : 'max-w-6xl mx-auto'}`}
@@ -137,8 +137,8 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="max-w-6xl mx-auto p-8 pt-6 pb-32">
-          <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm p-6 mb-8 border border-gray-200 dark:border-slate-700 text-gray-800 dark:text-slate-200 relative group">
+        <div className="max-w-6xl mx-auto p-4 md:p-8 pt-6 pb-32">
+          <div className="mt-12 bg-white dark:bg-slate-800 rounded-xl shadow-sm p-6 mb-8 border border-gray-200 dark:border-slate-700 text-gray-800 dark:text-slate-200 relative group">
             <h2 className="text-lg font-semibold mb-2 flex items-center justify-between">
               <span className="flex items-center">
                 <svg
