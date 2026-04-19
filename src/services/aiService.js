@@ -1,7 +1,6 @@
 import OpenAI from 'openai'
 
-const DEFAULT_OPENROUTER_KEY =
-  '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'
+const DEFAULT_OPENROUTER_KEY = import.meta.env.VITE_OPENROUTER_API_KEY || ''
 const DEFAULT_MODEL = 'google/gemini-2.0-flash-001'
 
 /**
@@ -70,14 +69,18 @@ class AIService {
   /**
    * Refactor a brittle XPath and provide explanation/tips.
    */
-  async refactorXpath(xpath, tool = 'Selenium') {
+  async refactorXpath(xpath, tool = 'Selenium', userContext = '') {
     if (!this.client) throw new Error('OpenRouter API Key not configured')
+
+    const contextInstruction = userContext.trim()
+      ? `\n      USER REQUIREMENTS / CONTEXT:\n      "${userContext}"\n      You MUST strictly incorporate these instructions when determining the BEST corrected version.\n`
+      : ''
 
     const prompt = `
       Act as a Senior SDET (Software Development Engineer in Test).
       Analyze the following fragile/incorrect XPath for ${tool}:
       "${xpath}"
-      
+      ${contextInstruction}
       PLATFORM RULES for ${tool}:
       - If tool is 'AppiumAndroid': MUST use Android class names like //android.widget.TextView, //android.widget.Button, etc. Do NOT use HTML tags (p, div, span).
       - If tool is 'AppiumIOS': MUST use iOS class names like //XCUIElementTypeStaticText, //XCUIElementTypeButton, etc. Do NOT use HTML tags.

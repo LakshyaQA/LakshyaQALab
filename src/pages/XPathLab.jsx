@@ -22,6 +22,7 @@ const XPathLab = () => {
   const [isAiLoading, setIsAiLoading] = useState(false)
   const [activeTab, setActiveTab] = useState('refactor') // refactor, html, vision
   const [htmlInput, setHtmlInput] = useState('')
+  const [aiContext, setAiContext] = useState('') // Custom instructions for the AI
   const [_aiConfigured, setAiConfigured] = useState(true) // Default community key is always active
 
   useEffect(() => {
@@ -80,9 +81,9 @@ const XPathLab = () => {
     const hasSlash = fixed.includes('/')
     const hasBracket = fixed.includes('[')
     const hasAt = fixed.includes('@')
-    const isPureAlphaNum = /^[a-zA-Z0-9]+$/.test(fixed)
+    const isConversational = /^[a-zA-Z0-9\s?,.!]+$/.test(fixed)
 
-    if (isPureAlphaNum || (!hasSlash && !hasBracket && !hasAt && fixed.length > 3)) {
+    if (isConversational || (!hasSlash && !hasBracket && !hasAt && fixed.length > 3)) {
       setAnalysis({
         errors: [
           'Critical Error: This is not a valid XPath or CSS locator.',
@@ -266,13 +267,41 @@ const XPathLab = () => {
   }
 
   const askAi = async () => {
-    if (!inputXpath.trim()) return
+    const fixed = inputXpath.trim()
+    if (!fixed) return
+
+    // ── Pre-AI Validation: Prevent API calls for conversational gibberish ──
+    const hasSlash = fixed.includes('/')
+    const hasBracket = fixed.includes('[')
+    const hasAt = fixed.includes('@')
+    // Allow conversational text checks (including spaces and question marks)
+    const isConversational = /^[a-zA-Z0-9\s?,.!]+$/.test(fixed)
+
+    if (isConversational || (!hasSlash && !hasBracket && !hasAt && fixed.length > 3)) {
+      setAnalysis({
+        errors: [
+          'Critical Error: This is not a valid XPath or CSS locator.',
+          "XPath must start with '/' or '//' and use brackets for predicates.",
+          `Your input: "${fixed}" contains no recognizable locator structure.`,
+        ],
+        fixed: 'N/A — Input is not a locator.',
+        suggestions: [
+          "Relative XPath: //tagName[@attribute='value']",
+          'CSS Selector: tagName#id or tagName.className',
+        ],
+        best5: ["//*[@data-testid='target']"],
+        isAiGenerated: false,
+        isInvalid: true,
+      })
+      addLog('error', `AI aborted. Rejected invalid non-locator input: ${inputXpath}`)
+      return
+    }
 
     setIsAiLoading(true)
     setAnalysis(null)
 
     try {
-      const result = await aiService.refactorXpath(inputXpath, activeTool)
+      const result = await aiService.refactorXpath(inputXpath, activeTool, aiContext)
       setAnalysis({
         errors: result.issues || [],
         fixed: result.fixed,
@@ -488,7 +517,18 @@ const XPathLab = () => {
                         value={inputXpath}
                         onChange={e => setInputXpath(e.target.value)}
                         placeholder="//div[text()='Submit']"
-                        className="w-full h-32 p-4 bg-gray-50 dark:bg-slate-900 border-none rounded-2xl font-mono text-sm outline-none focus:ring-2 focus:ring-blue-500 transition-all dark:text-white"
+                        className="w-full h-24 p-4 bg-gray-50 dark:bg-slate-900 border-none rounded-2xl font-mono text-sm outline-none focus:ring-2 focus:ring-blue-500 transition-all dark:text-white"
+                      ></textarea>
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                        Explain the issue (Optional)
+                      </label>
+                      <textarea
+                        value={aiContext}
+                        onChange={e => setAiContext(e.target.value)}
+                        placeholder='e.g. "It&apos;s finding 2 elements, make it unique using a parent container..."'
+                        className="w-full h-16 p-4 bg-gray-50 dark:bg-slate-900 border-none rounded-2xl font-mono text-xs outline-none focus:ring-2 focus:ring-purple-500 transition-all dark:text-white"
                       ></textarea>
                     </div>
                     <div className="flex gap-4">
