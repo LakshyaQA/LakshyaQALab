@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import QACursorEffect from '../components/QACursorEffect'
-import QAToolsOverlay from '../components/qa/QAToolsOverlay'
 
 // ─── Google reCAPTCHA Test Site Key (always passes – safe for automation) ──────
 const RECAPTCHA_SITE_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
@@ -301,8 +300,6 @@ const Login = () => {
       className="min-h-screen flex items-center justify-center px-4 py-12 transition-all duration-500"
       style={bg}
     >
-      <QAToolsOverlay />
-
       {/* ── Card ── */}
       <div
         className="max-w-md w-full rounded-2xl p-8 transition-all duration-500"
