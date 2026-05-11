@@ -56,7 +56,7 @@ const Sandbox = () => {
       <div className="min-h-screen bg-gray-50 dark:bg-slate-900 transition-colors duration-300">
         {/* Sticky Header */}
         <div
-          className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'px-0 pt-0' : 'pt-8 px-8'}`}
+          className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'px-0 pt-0' : 'pt-4 px-4 md:pt-8 md:px-8'}`}
         >
           <div
             className={`transition-all duration-500 ${isScrolled ? 'max-w-none w-full' : 'max-w-6xl mx-auto'}`}
@@ -91,7 +91,7 @@ const Sandbox = () => {
                   </button>
                   <div>
                     <h1
-                      className={`font-bold text-gray-900 dark:text-white transition-all duration-300 ${isScrolled ? 'text-lg' : 'text-2xl'}`}
+                      className={`font-bold text-gray-900 dark:text-white transition-all duration-300 ${isScrolled ? 'text-base md:text-lg' : 'text-xl md:text-2xl'}`}
                     >
                       Automation Sandbox
                     </h1>
@@ -115,10 +115,10 @@ const Sandbox = () => {
           </div>
         </div>
 
-        <div className="max-w-6xl mx-auto p-8 pt-6 pb-32">
-          <div className="bg-blue-600 dark:bg-blue-700 rounded-2xl p-8 mb-12 text-white shadow-xl relative overflow-hidden group">
+        <div className="max-w-6xl mx-auto p-4 md:p-8 pt-6 pb-32">
+          <div className="bg-blue-600 dark:bg-blue-700 rounded-2xl p-5 md:p-8 mb-8 md:mb-12 text-white shadow-xl relative overflow-hidden group">
             <div className="relative z-10">
-              <h2 className="text-3xl font-black mb-4 uppercase tracking-tighter">
+              <h2 className="text-2xl md:text-3xl font-black mb-4 uppercase tracking-tighter">
                 Advanced Widget Testing
               </h2>
               <p className="max-w-2xl text-blue-100 font-medium leading-relaxed">

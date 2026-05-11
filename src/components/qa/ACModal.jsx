@@ -5,6 +5,11 @@ const ACModal = ({ isOpen, onClose, title, criteria }) => {
 
   useEffect(() => {
     if (!isOpen) return
+
+    // Body scroll lock
+    const originalStyle = window.getComputedStyle(document.body).overflow
+    document.body.style.overflow = 'hidden'
+
     const handleKeyDown = e => {
       if (e.key === 'Escape') onClose()
       if (e.key === 'Tab' && modalRef.current) {
@@ -21,7 +26,11 @@ const ACModal = ({ isOpen, onClose, title, criteria }) => {
     }
     document.addEventListener('keydown', handleKeyDown)
     modalRef.current?.querySelector('button')?.focus()
-    return () => document.removeEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      document.body.style.overflow = originalStyle
+    }
   }, [isOpen, onClose])
 
   if (!isOpen) return null

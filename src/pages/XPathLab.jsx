@@ -379,7 +379,7 @@ const XPathLab = () => {
       <div className="min-h-screen bg-gray-50 dark:bg-slate-900 transition-colors duration-300">
         {/* Header */}
         <div
-          className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'px-0 pt-0' : 'pt-8 px-8'}`}
+          className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'px-0 pt-0' : 'pt-4 px-4 md:pt-8 md:px-8'}`}
         >
           <div
             className={`transition-all duration-500 ${isScrolled ? 'max-w-none w-full' : 'max-w-7xl mx-auto'}`}
@@ -411,7 +411,7 @@ const XPathLab = () => {
                     </svg>
                   </button>
                   <h1
-                    className={`font-black uppercase text-gray-900 dark:text-white transition-all duration-300 ${isScrolled ? 'text-lg' : 'text-2xl'}`}
+                    className={`font-bold text-gray-900 dark:text-white transition-all duration-300 ${isScrolled ? 'text-base md:text-lg' : 'text-xl md:text-2xl'}`}
                   >
                     XPath & Locator Lab
                   </h1>
@@ -459,7 +459,7 @@ const XPathLab = () => {
           </div>
         </div>
 
-        <main className="max-w-7xl mx-auto p-8 pt-12 pb-40">
+        <main className="max-w-7xl mx-auto p-4 md:p-8 pt-12 pb-40">
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-10">
             {/* ────── Left Column: Refactorer ────── */}
             <div className="xl:col-span-2 space-y-8">

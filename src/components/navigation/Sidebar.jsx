@@ -2,6 +2,45 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 
 const Sidebar = ({ isOpen, onClose }) => {
+  const sidebarRef = React.useRef(null)
+
+  React.useEffect(() => {
+    if (!isOpen) return
+    const originalStyle = window.getComputedStyle(document.body).overflow
+    document.body.style.overflow = 'hidden'
+
+    const handleKey = e => {
+      if (e.key === 'Escape') onClose()
+      if (e.key === 'Tab' && sidebarRef.current) {
+        const focusable = sidebarRef.current.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        )
+        if (focusable.length > 0) {
+          const first = focusable[0]
+          const last = focusable[focusable.length - 1]
+          if (e.shiftKey ? document.activeElement === first : document.activeElement === last) {
+            e.preventDefault()
+            ;(e.shiftKey ? last : first).focus()
+          }
+        }
+      }
+    }
+    document.addEventListener('keydown', handleKey)
+
+    // Focus first element initially
+    setTimeout(() => {
+      if (sidebarRef.current) {
+        const firstBtn = sidebarRef.current.querySelector('button')
+        if (firstBtn) firstBtn.focus()
+      }
+    }, 10)
+
+    return () => {
+      document.body.style.overflow = originalStyle
+      document.removeEventListener('keydown', handleKey)
+    }
+  }, [isOpen, onClose])
+
   const menuItems = [
     { name: 'Dashboard Home', path: '/dashboard', icon: '🏠', category: 'Core' },
     { name: 'Data Management', path: '/dashboard#data-table', icon: '📊', category: 'Testing' },
@@ -52,6 +91,7 @@ const Sidebar = ({ isOpen, onClose }) => {
 
       {/* Sidebar Drawer */}
       <aside
+        ref={sidebarRef}
         className={`fixed top-0 left-0 h-screen w-72 bg-white dark:bg-slate-900 shadow-2xl z-[80] transition-transform duration-300 ease-in-out transform ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
         data-testid="navigation-sidebar"
       >

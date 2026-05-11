@@ -105,120 +105,122 @@ const QAToolsOverlay = () => {
   )
 
   return (
-    <div
-      className={`fixed bottom-6 right-6 flex flex-col items-end gap-3 z-[100] isolate ${isMobile ? 'pointer-events-none' : ''}`}
-    >
-      {/* 1. Portfolio Cross-Link Popup */}
-      {showPortfolioPopup && (
-        <div
-          className="w-72 bg-white dark:bg-slate-800 border-t-4 border-t-indigo-600 rounded-2xl shadow-2xl p-4 mb-2 animate-in slide-in-from-bottom-5 fade-in duration-300 relative group pointer-events-auto"
-          data-testid="portfolio-popup"
-        >
-          <button
-            onClick={() => setPortfolioDismissed(true)}
-            className="absolute top-2 right-2 text-slate-400 hover:text-slate-600 p-1"
-            data-testid="portfolio-popup-close"
+    <>
+      <div
+        className={`fixed bottom-6 right-6 flex flex-col items-end gap-3 z-[100] isolate ${isMobile ? 'pointer-events-none' : ''}`}
+      >
+        {/* 1. Portfolio Cross-Link Popup */}
+        {showPortfolioPopup && (
+          <div
+            className="w-72 bg-white dark:bg-slate-800 border-t-4 border-t-indigo-600 rounded-2xl shadow-2xl p-4 mb-2 animate-in slide-in-from-bottom-5 fade-in duration-300 relative group pointer-events-auto"
+            data-testid="portfolio-popup"
           >
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-          <div className="flex gap-3 items-start mb-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-lg flex-shrink-0 shadow-lg shadow-indigo-500/20">
-              👋
-            </div>
-            <div>
-              <p className="text-[13px] font-black text-slate-900 dark:text-white leading-tight">
-                Hey there, QA explorer!
-              </p>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                Want to check out{' '}
-                <span className="text-indigo-600 dark:text-indigo-400 font-bold">
-                  Lakshay&apos;s full portfolio
-                </span>
-                ? Built with all the QA love. 🚀
-              </p>
-            </div>
-          </div>
-          <div className="flex gap-2">
             <button
-              onClick={handleVisitPortfolio}
-              className="flex-1 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-black uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-indigo-600/20 active:scale-95 flex items-center justify-center gap-1.5"
-              data-testid="portfolio-popup-visit"
+              onClick={() => setPortfolioDismissed(true)}
+              className="absolute top-2 right-2 text-slate-400 hover:text-slate-600 p-1"
+              data-testid="portfolio-popup-close"
             >
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                  d="M6 18L18 6M6 6l12 12"
                 />
               </svg>
-              Show me!
             </button>
-            <button
-              onClick={() => setPortfolioDismissed(true)}
-              className="px-3 py-2 border border-slate-200 dark:border-slate-700 text-slate-500 text-[10px] font-bold uppercase rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
-              data-testid="portfolio-popup-dismiss"
-            >
-              Later
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* 2 & 3. Buttons (Responsive logic) */}
-      {!isMobile ? (
-        <>
-          {acButton}
-          {tsButton}
-        </>
-      ) : (
-        <div className="flex flex-col items-end gap-3 pointer-events-auto">
-          {isExpanded && (
-            <div className="flex flex-col items-end gap-3 mb-2 animate-in slide-in-from-bottom-5 duration-300">
-              {acButton}
-              {tsButton}
-            </div>
-          )}
-
-          <div className="flex items-center gap-3">
-            {(showHint || isExpanded) && !isExpanded && (
-              <div className="bg-slate-900 text-white text-[10px] px-3 py-1.5 rounded-full font-black uppercase tracking-widest shadow-xl animate-in fade-in slide-in-from-right-4 duration-300">
-                QA Tools
+            <div className="flex gap-3 items-start mb-3">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-lg flex-shrink-0 shadow-lg shadow-indigo-500/20">
+                👋
               </div>
-            )}
-            <button
-              onClick={() => setIsExpanded(!isExpanded)}
-              className={`w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 ${isExpanded ? 'bg-slate-800 rotate-45 scale-90' : 'bg-indigo-600 animate-bounce-slow'}`}
-              data-testid="qa-tools-fab"
-            >
-              {isExpanded ? (
-                <svg
-                  className="w-6 h-6 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+              <div>
+                <p className="text-[13px] font-black text-slate-900 dark:text-white leading-tight">
+                  Hey there, QA explorer!
+                </p>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                  Want to check out{' '}
+                  <span className="text-indigo-600 dark:text-indigo-400 font-bold">
+                    Lakshay&apos;s full portfolio
+                  </span>
+                  ? Built with all the QA love. 🚀
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={handleVisitPortfolio}
+                className="flex-1 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-black uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-indigo-600/20 active:scale-95 flex items-center justify-center gap-1.5"
+                data-testid="portfolio-popup-visit"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={3}
-                    d="M6 18L18 6M6 6l12 12"
+                    strokeWidth={2}
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                   />
                 </svg>
-              ) : (
-                <span className="text-2xl">🧪</span>
-              )}
-            </button>
+                Show me!
+              </button>
+              <button
+                onClick={() => setPortfolioDismissed(true)}
+                className="px-3 py-2 border border-slate-200 dark:border-slate-700 text-slate-500 text-[10px] font-bold uppercase rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+                data-testid="portfolio-popup-dismiss"
+              >
+                Later
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+
+        {/* 2 & 3. Buttons (Responsive logic) */}
+        {!isMobile ? (
+          <>
+            {acButton}
+            {tsButton}
+          </>
+        ) : (
+          <div className="flex flex-col items-end gap-3 pointer-events-auto">
+            {isExpanded && (
+              <div className="flex flex-col items-end gap-3 mb-2 animate-in slide-in-from-bottom-5 duration-300">
+                {acButton}
+                {tsButton}
+              </div>
+            )}
+
+            <div className="flex items-center gap-3">
+              {(showHint || isExpanded) && !isExpanded && (
+                <div className="bg-slate-900 text-white text-[10px] px-3 py-1.5 rounded-full font-black uppercase tracking-widest shadow-xl animate-in fade-in slide-in-from-right-4 duration-300">
+                  QA Tools
+                </div>
+              )}
+              <button
+                onClick={() => setIsExpanded(!isExpanded)}
+                className={`w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 ${isExpanded ? 'bg-slate-800 rotate-45 scale-90' : 'bg-indigo-600 animate-bounce-slow'}`}
+                data-testid="qa-tools-fab"
+              >
+                {isExpanded ? (
+                  <svg
+                    className="w-6 h-6 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={3}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                ) : (
+                  <span className="text-2xl">🧪</span>
+                )}
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
 
       <ACModal
         isOpen={showAC}
@@ -233,7 +235,7 @@ const QAToolsOverlay = () => {
         scenarios={spec.testScenarios}
         masterPrompt={spec.masterPrompt}
       />
-    </div>
+    </>
   )
 }
 

@@ -162,7 +162,7 @@ const DataTable = () => {
                 <th
                   key={key}
                   scope="col"
-                  className="px-6 py-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700"
+                  className={`px-3 md:px-6 py-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700${key === 'status' ? ' hidden sm:table-cell' : ''}`}
                   onClick={() => handleSort(key)}
                   data-testid={`sort-${key}`}
                 >
@@ -205,18 +205,18 @@ const DataTable = () => {
                   />
                 </td>
                 <td
-                  className="px-6 py-4 font-mono font-medium text-gray-900 dark:text-white"
+                  className="px-3 md:px-6 py-4 font-mono font-medium text-gray-900 dark:text-white"
                   data-testid={`cell-id-${row.id}`}
                 >
                   {row.id}
                 </td>
-                <td className="px-6 py-4" data-testid={`cell-name-${row.id}`}>
+                <td className="px-3 md:px-6 py-4" data-testid={`cell-name-${row.id}`}>
                   {row.name}
                 </td>
-                <td className="px-6 py-4" data-testid={`cell-role-${row.id}`}>
+                <td className="px-3 md:px-6 py-4" data-testid={`cell-role-${row.id}`}>
                   {row.role}
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-3 md:px-6 py-4 hidden sm:table-cell">
                   <span
                     className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${row.status === 'Active' ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400' : 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300'}`}
                     data-testid={`cell-status-${row.id}`}
@@ -243,7 +243,7 @@ const DataTable = () => {
   return (
     <div
       id="data-table"
-      className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 overflow-hidden flex flex-col col-span-1 md:col-span-2 relative h-96"
+      className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 overflow-hidden flex flex-col col-span-1 md:col-span-2 relative h-auto md:h-96"
     >
       <div className="px-6 py-4 border-b border-gray-200 dark:border-slate-700 flex justify-between items-center bg-gray-50/50 dark:bg-slate-800/50">
         <h3 className="font-semibold text-gray-800 dark:text-slate-200 flex items-center">
@@ -270,7 +270,7 @@ const DataTable = () => {
       <div className="flex-1 overflow-auto">{renderContent()}</div>
 
       {!loading && !error && (
-        <div className="px-6 py-4 border-t border-gray-200 dark:border-slate-700 flex items-center justify-between bg-white dark:bg-slate-900">
+        <div className="px-4 md:px-6 py-3 md:py-4 border-t border-gray-200 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-2 bg-white dark:bg-slate-900">
           <span className="text-sm text-gray-500 dark:text-gray-400">
             Showing{' '}
             <span className="font-semibold text-gray-900 dark:text-white" data-testid="page-start">

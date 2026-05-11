@@ -105,7 +105,7 @@ const Dashboard = () => {
                     className={`transition-all duration-300 ${isScrolled ? 'scale-90' : 'scale-100'}`}
                   >
                     <h1
-                      className={`font-bold text-gray-900 dark:text-white transition-all duration-300 ${isScrolled ? 'text-lg' : 'text-2xl'}`}
+                      className={`font-bold text-gray-900 dark:text-white transition-all duration-300 ${isScrolled ? 'text-base md:text-lg' : 'text-xl md:text-2xl'}`}
                     >
                       QA Automation Lab
                     </h1>
