@@ -104,11 +104,39 @@ const TestScenariosModal = ({ isOpen, onClose, title, scenarios, masterPrompt })
 
   useEffect(() => {
     if (!isOpen) return
+    const originalStyle = window.getComputedStyle(document.body).overflow
+    document.body.style.overflow = 'hidden'
+
     const handleKey = e => {
       if (e.key === 'Escape') onClose()
+      if (e.key === 'Tab' && modalRef.current) {
+        const focusable = modalRef.current.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        )
+        if (focusable.length > 0) {
+          const first = focusable[0]
+          const last = focusable[focusable.length - 1]
+          if (e.shiftKey ? document.activeElement === first : document.activeElement === last) {
+            e.preventDefault()
+            ;(e.shiftKey ? last : first).focus()
+          }
+        }
+      }
     }
     document.addEventListener('keydown', handleKey)
-    return () => document.removeEventListener('keydown', handleKey)
+
+    // Focus first focusable element initially
+    setTimeout(() => {
+      if (modalRef.current) {
+        const firstBtn = modalRef.current.querySelector('button')
+        if (firstBtn) firstBtn.focus()
+      }
+    }, 10)
+
+    return () => {
+      document.body.style.overflow = originalStyle
+      document.removeEventListener('keydown', handleKey)
+    }
   }, [isOpen, onClose])
 
   const handleCopy = async () => {

@@ -633,7 +633,7 @@ const ChaosForm = () => {
       >
         {/* Card Header */}
         <div
-          className="flex items-center justify-between px-6 py-4 border-b dark:border-slate-700 rounded-t-xl"
+          className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-4 md:px-6 py-4 border-b dark:border-slate-700 rounded-t-xl"
           style={{
             background: anyActive
               ? 'linear-gradient(135deg, rgba(239,68,68,0.05), rgba(249,115,22,0.03))'
@@ -643,7 +643,7 @@ const ChaosForm = () => {
         >
           <div className="flex items-center gap-3">
             <div
-              className="w-9 h-9 rounded-xl flex items-center justify-center text-lg"
+              className="w-9 h-9 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
               style={{
                 background: anyActive
                   ? 'linear-gradient(135deg, #ef4444, #f97316)'
@@ -655,24 +655,24 @@ const ChaosForm = () => {
             >
               {anyActive ? '⚡' : '📋'}
             </div>
-            <div>
+            <div className="min-w-0">
               <h2 className="text-base font-bold text-gray-900 dark:text-white">
                 Chaos Form Builder
               </h2>
-              <p className="text-xs text-gray-400 dark:text-slate-500">
+              <p className="text-xs text-gray-400 dark:text-slate-500 break-words">
                 {anyActive
                   ? `${Object.values(chaos).filter(Boolean).length} chaos mode(s) active — your automation must adapt`
                   : 'Toggle chaos modes to simulate real-world form misbehaviour'}
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2 text-xs text-gray-400 dark:text-slate-500 font-mono">
+          <div className="hidden md:flex items-center gap-2 text-xs text-gray-400 dark:text-slate-500 font-mono flex-shrink-0">
             <span>[data-testid="chaos-form"]</span>
           </div>
         </div>
 
         {/* Card Body */}
-        <div className="p-6">
+        <div className="p-4 md:p-6">
           {/* Chaos Toggle Bar */}
           <ChaosToggleBar chaos={chaos} onToggle={toggleChaos} />
 

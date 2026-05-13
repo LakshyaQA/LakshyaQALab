@@ -125,7 +125,7 @@ const ProductGallery = () => {
       data-testid="product-gallery"
     >
       {/* Header & Controls */}
-      <div className="p-8 border-b border-gray-100 dark:border-slate-700 bg-gray-50/50 dark:bg-slate-800/50">
+      <div className="p-4 md:p-8 border-b border-gray-100 dark:border-slate-700 bg-gray-50/50 dark:bg-slate-800/50">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8">
           <div>
             <h2 className="text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tight">
@@ -194,7 +194,7 @@ const ProductGallery = () => {
       </div>
 
       {/* Product List - Carousel Style */}
-      <div className="p-8 relative group">
+      <div className="p-4 md:p-8 relative group">
         {filteredProducts.length === 0 ? (
           <div className="py-20 text-center">
             <div className="text-4xl mb-4">🔍</div>

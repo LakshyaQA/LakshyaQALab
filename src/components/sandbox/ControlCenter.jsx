@@ -52,7 +52,7 @@ const ControlCenter = () => {
 
   return (
     <div
-      className={`fixed top-0 right-0 h-screen z-[60] flex transition-all duration-500 ease-in-out ${isExpanded ? 'translate-x-0' : 'translate-x-[calc(100%-8px)]'}`}
+      className={`fixed top-0 right-0 h-screen z-[60] flex transition-all duration-500 ease-in-out hidden md:flex ${isExpanded ? 'translate-x-0' : 'translate-x-[calc(100%-8px)]'}`}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       data-testid="control-center"

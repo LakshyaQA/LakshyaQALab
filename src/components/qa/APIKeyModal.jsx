@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { aiService } from '../../services/aiService'
 
 const MODELS = [
@@ -17,6 +17,44 @@ const MODELS = [
 const APIKeyModal = ({ isOpen, onClose, onSave }) => {
   const [key, setKey] = useState(localStorage.getItem('OPENROUTER_API_KEY') || '')
   const [model, setModel] = useState(localStorage.getItem('AI_MODEL') || MODELS[0].id)
+  const modalRef = React.useRef(null)
+
+  useEffect(() => {
+    if (!isOpen) return
+    const originalStyle = window.getComputedStyle(document.body).overflow
+    document.body.style.overflow = 'hidden'
+
+    const handleKey = e => {
+      if (e.key === 'Escape') onClose()
+      if (e.key === 'Tab' && modalRef.current) {
+        const focusable = modalRef.current.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        )
+        if (focusable.length > 0) {
+          const first = focusable[0]
+          const last = focusable[focusable.length - 1]
+          if (e.shiftKey ? document.activeElement === first : document.activeElement === last) {
+            e.preventDefault()
+            ;(e.shiftKey ? last : first).focus()
+          }
+        }
+      }
+    }
+    document.addEventListener('keydown', handleKey)
+
+    // Focus first input initially
+    setTimeout(() => {
+      if (modalRef.current) {
+        const firstInput = modalRef.current.querySelector('input')
+        if (firstInput) firstInput.focus()
+      }
+    }, 10)
+
+    return () => {
+      document.body.style.overflow = originalStyle
+      document.removeEventListener('keydown', handleKey)
+    }
+  }, [isOpen, onClose])
 
   if (!isOpen) return null
 
@@ -35,7 +73,10 @@ const APIKeyModal = ({ isOpen, onClose, onSave }) => {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
-      <div className="bg-white dark:bg-slate-800 w-full max-w-md rounded-3xl shadow-2xl border border-gray-100 dark:border-slate-700 overflow-hidden animate-in zoom-in duration-300">
+      <div
+        ref={modalRef}
+        className="bg-white dark:bg-slate-800 w-full max-w-md rounded-3xl shadow-2xl border border-gray-100 dark:border-slate-700 overflow-hidden animate-in zoom-in duration-300"
+      >
         <div className="p-8">
           <div className="flex items-center space-x-3 mb-6">
             <div className="w-10 h-10 rounded-2xl bg-indigo-600 flex items-center justify-center text-white text-xl shadow-lg shadow-indigo-500/20">
