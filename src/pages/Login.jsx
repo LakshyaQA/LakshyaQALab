@@ -138,11 +138,12 @@ const Login = () => {
       return
     }
 
-    window.__recaptchaReady = () => renderWidget()
+    window.__lakshyaQARecaptchaReady = () => renderWidget()
 
     const script = document.createElement('script')
     script.id = SCRIPT_ID
-    script.src = 'https://www.google.com/recaptcha/api.js?onload=__recaptchaReady&render=explicit'
+    script.src =
+      'https://www.google.com/recaptcha/api.js?onload=__lakshyaQARecaptchaReady&render=explicit'
     script.async = true
     script.defer = true
     document.head.appendChild(script)
@@ -154,7 +155,7 @@ const Login = () => {
 
   // Expose global so script callback works
   useEffect(() => {
-    window.__recaptchaReady = renderWidget
+    window.__lakshyaQARecaptchaReady = renderWidget
   }, [renderWidget])
 
   // ── Lockout countdown ──────────────────────────────────────────────────────
@@ -384,7 +385,7 @@ const Login = () => {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+        <form onSubmit={handleSubmit} className="space-y-5" noValidate data-testid="login-form">
           {/* Username */}
           <div>
             <div className="flex justify-between mb-1">

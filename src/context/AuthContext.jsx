@@ -15,8 +15,11 @@ export const AuthProvider = ({ children }) => {
     // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 800))
 
-    // Hardcoded credentials for the playground
-    if (username === 'admin' && password === 'Qwerty@1234') {
+    // Retrieve credentials from environment variables with fallback defaults
+    const targetUsername = import.meta.env.VITE_QA_USERNAME || 'admin'
+    const targetPassword = import.meta.env.VITE_QA_PASSWORD || 'Qwerty@1234'
+
+    if (username === targetUsername && password === targetPassword) {
       const mockJwt = `mock_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9_${Date.now()}`
 
       if (rememberMe) {
@@ -28,7 +31,10 @@ export const AuthProvider = ({ children }) => {
       }
       return { success: true }
     } else {
-      return { success: false, error: 'Invalid credentials. Please use admin / Qwerty@1234' }
+      return {
+        success: false,
+        error: `Invalid credentials. Please use ${targetUsername} / ${targetPassword}`,
+      }
     }
   }
 

@@ -1,0 +1,11 @@
+# Cursor Rules for LakshyaQALab
+
+You must follow these rules strictly when editing files in this repository:
+
+1. **Precise Scope Isolation**: Only change the specific lines of code that address the task. Do not rewrite whole files, components, or functions. Do not modify headers, sidebars, layout wrappers, or overlays unless asked.
+2. **Design Language & Styles**: Reuse styling variables and custom utility classes defined in `src/index.css` (primary teal, secondary blue, accent green). Use classes like `.btn-primary`, `.btn-secondary`, `.glass-panel`, `.glass-card`, `.dark-elegant-card`, and `.bg-gradient-elegant`.
+3. **Typography**: Match `Poppins` for headers, `Inter` for body. Maintain Framer Motion animations.
+4. **Do NOT Alter `data-testid`**: Existing `data-testid` attributes must remain untouched to avoid breaking automated Playwright/Cypress tests. Assign descriptive, lowercase, hyphenated `data-testid` elements for new features.
+5. **Preserve Testing Modes**: Do not fix, alter, or remove Chaos Form Builder modes or God Mode network control overrides (Offline, 500 error, Slow 3G).
+6. **Unified QA Toolbox**: The floating toolbox widget (`QAToolsOverlay`) in the bottom-right must remain visible.
+7. **Verification**: Always run `npm run lint`, `npm run format`, and `npm run test` after changes.
