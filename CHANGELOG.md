@@ -22,6 +22,18 @@ Maintained date-wise in descending order (latest first).
   - **GitHub Copilot**: Configured `.github/copilot-instructions.md`.
   - **Cursor & Cline**: Configured `.cursorrules` and `.clinerules`.
 
+### Fixed
+
+- **Security Hardening** — Resolved 10 security findings across deployment configurations, global scopes, local env configurations, and code bases:
+  - **Content Security Policy**: Implemented CSP headers in `vercel.json` and `netlify.toml` to block unauthorized scripts, style, or asset loading.
+  - **Netlify Configuration**: Updated `netlify.toml` to use `npm run build` instead of `yarn build`, and upgraded target Node version to `24`.
+  - **Namespace Pollution**: Renamed Google reCAPTCHA callback `window.__recaptchaReady` to `window.__lakshyaQARecaptchaReady` to eliminate global namespace collisions.
+  - **API Key Warning Banner**: Added a secure alert message within the `APIKeyModal` explaining browser storage usage and cautions.
+  - **Externalized Credentials**: Relocated plaintext sandbox credentials in `AuthContext` to environment variables `VITE_QA_USERNAME` and `VITE_QA_PASSWORD` with default fallbacks.
+  - **Privacy Cleanup**: Removed a personal telephone number from the JSON-LD Person structured data block in `index.html`.
+  - **Cleaned .gitignore**: Removed duplicate ignore patterns and stray `-e` configuration artifacts.
+  - **Unit Test Stability**: Added missing `data-testid="login-form"` to the Login form element to pass JSDOM Vitest assertions.
+
 ---
 
 ## 2026-04-14

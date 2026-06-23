@@ -117,6 +117,13 @@ const APIKeyModal = ({ isOpen, onClose, onSave }) => {
                   </button>
                 )}
               </div>
+              <div className="mt-3 p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-start space-x-2">
+                <span className="text-amber-500 text-xs mt-0.5">⚠️</span>
+                <p className="text-[10px] text-amber-600 dark:text-amber-400 leading-normal font-medium">
+                  Your key is used directly from your browser. Do not use a key with unrestricted
+                  billing limits.
+                </p>
+              </div>
             </div>
 
             <div>
