@@ -11,6 +11,19 @@ Maintained date-wise in descending order (latest first).
 
 ---
 
+## 2026-06-23
+
+### Added
+
+- **AI Agent Guidelines (`INSTRUCTIONS.md`)** — Added comprehensive rules at the project root preventing AI agents from making basic mistakes, breaking styling layout consistency, refactoring unrelated code, or modifying `data-testid` properties.
+- **Dedicated Agent Configs** — Configured dedicated rules and skills across multiple tools:
+  - **Antigravity**: Created custom IDE skill at `~/.gemini/config/skills/lakshya-qa-rules/SKILL.md` and `~/.gemini/GEMINI.md`.
+  - **Claude Code**: Configured `.claude/rules` and `.claude/SKILL.md`.
+  - **GitHub Copilot**: Configured `.github/copilot-instructions.md`.
+  - **Cursor & Cline**: Configured `.cursorrules` and `.clinerules`.
+
+---
+
 ## 2026-04-14
 
 ### Added

@@ -114,6 +114,19 @@ Avoid using CSS selectors or XPaths based on text/position, as the **Chaos Modes
 
 ---
 
+## 🤖 AI Agent Guidelines
+
+To prevent accidental regressions, UI style deviations, or test-suite breakage, all AI agents (Antigravity, Claude Code, GitHub Copilot, Cursor, Cline) must adhere to the rules in [INSTRUCTIONS.md](file:///c:/Users/LakshyaSharma/Downloads/LakshyaQALab/INSTRUCTIONS.md).
+
+Dedicated configurations have been set up under:
+
+- **Antigravity**: Registered custom skill in local config
+- **Claude Code**: `.claude/rules` and `.claude/SKILL.md`
+- **GitHub Copilot**: `.github/copilot-instructions.md`
+- **Cursor / Cline**: `.cursorrules` and `.clinerules`
+
+---
+
 ## 🤝 Contact
 
 - **Lakshya Sharma**: [linkedin.com/in/lakshyasharmaqa](https://linkedin.com/in/lakshyasharmaqa)

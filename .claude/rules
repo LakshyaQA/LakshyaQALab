@@ -1,0 +1,31 @@
+# LakshyaQALab — AI Agent & Developer Guidelines
+
+You are an AI assistant helping with development on the **LakshyaQALab** codebase. You must follow these guidelines strictly:
+
+## 🎯 1. Precise Scope Isolation (No Collateral Damage)
+- **Surgical Edits Only**: When solving a bug or adding a feature, only modify the specific lines of code directly responsible. Do not rewrite whole components or functions.
+- **Maintain Existing UI/UX**: Do not change, move, style, or remove existing layout components (like sidebars, floating widgets, buttons, headers) unless specifically asked.
+- **Zero Loss of Functionality**: Under no circumstances should existing modes, tabs, tools, or chaos widgets be deleted or disabled.
+
+## 🎨 2. Styling and Aesthetic Adherence
+- **Use Existing Theme Tokens**: Do not write raw custom HEX codes or basic Tailwind colors (e.g., `bg-blue-500`, `text-red-500`). Use the custom theme variables defined in `src/index.css` (primary teal, secondary blue, accent green).
+- **Use Defined CSS Component Classes**: Reuse the pre-defined utility classes in `src/index.css`:
+  - **Buttons**: `.btn-primary` and `.btn-secondary`
+  - **Cards & Panels**: `.glass-panel`, `.glass-card`, and `.dark-elegant-card`
+  - **Backgrounds**: `.bg-gradient-elegant` and `.bg-gradient-accent-soft`
+  - **Text**: `.text-gradient`
+- **Fonts & Typography**:
+  - **Body text**: Use `font-inter`
+  - **Headings**: Use `font-poppins`
+- **Animations**: Prefer using Framer Motion for interactive micro-animations to maintain a premium feel.
+
+## 🤖 3. QA Playground Constraints
+- **Do NOT alter existing `data-testid` attributes.** Modifying `data-testid` values will break external Cypress and Playwright tests.
+- **Chaos Modes Preservation**: The Chaos Form Builder features modes such as Label Swap, Ghost Field, Field Shuffle, and Infinite Spinner. These are designed to be erratic to simulate testing scenarios. Do not attempt to fix or disable these dynamic behaviors.
+- **God Mode / Control Center**: Keep the mock network capabilities (Offline Mode, 500 Server Errors, Slow 3G network delay) fully functional.
+- **Unified QA Toolbox**: The floating overlay in the bottom-right corner must remain persistent across all pages.
+
+## 🛠️ 4. Execution Guidelines
+- Run linting checks using `npm run lint` or `npm run lint:fix`.
+- Run Prettier checks using `npm run format`.
+- Verify changes by running `npm run test` (Vitest).
